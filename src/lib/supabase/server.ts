@@ -39,6 +39,7 @@ export type Profile = {
   adult_confirmed: boolean;
   phone: string | null;
   must_change_password: boolean;
+  cpf: string | null;
 };
 
 export async function getSession() {

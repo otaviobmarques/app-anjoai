@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { formatCPF } from "@/lib/cpf";
 
 type Msg = { role: "user" | "assistant"; content: string; at: string; risk: number | null; audio: boolean };
 type H = {
@@ -26,6 +27,21 @@ export function PersonHistory({ userId }: { userId: string }) {
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
   const [openConv, setOpenConv] = useState<string | null>(null);
+  const [newPw, setNewPw] = useState("");
+
+  const [cpf, setCpf] = useState<string | null>(null);
+  const [link, setLink] = useState("");
+  async function makeLink() {
+    const r = await fetch("/api/admin/link", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ userId }) });
+    const j = await r.json().catch(() => ({}));
+    setLink(r.ok ? j.link : "erro");
+  }
+  async function resetPassword() {
+    if (!confirm("Gerar um PIN novo para esta pessoa? O PIN atual deixa de funcionar.")) return;
+    const r = await fetch("/api/admin/pin", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ userId }) });
+    const j = await r.json().catch(() => ({}));
+    setNewPw(r.ok ? j.pin : "erro");
+  }
 
   async function load(e: React.FormEvent) {
     e.preventDefault();
@@ -36,6 +52,8 @@ export function PersonHistory({ userId }: { userId: string }) {
     setBusy(false);
     if (error) return setErr("Não consegui abrir o histórico.");
     setH(data as H);
+    const { data: c } = await createClient().rpc("admin_person_cpf", { p_user: userId });
+    setCpf((c as string) || null);
     const first = (data as H).conversations[0];
     if (first) setOpenConv(first.id);
   }
@@ -83,13 +101,20 @@ export function PersonHistory({ userId }: { userId: string }) {
       <section className="card p-5">
         <h1 className="text-xl font-extrabold">{p?.name || "Sem nome"}</h1>
         <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
-          <dt className="text-muted">E-mail</dt><dd>{p?.email}</dd>
+          <dt className="text-muted">Login</dt><dd>{cpf ? `CPF ${formatCPF(cpf)} + PIN` : p?.email}</dd>
           <dt className="text-muted">Telefone</dt><dd>{p?.phone || "—"}</dd>
           <dt className="text-muted">Tradição</dt><dd>{p?.tradition} · {p?.bible_version}</dd>
           <dt className="text-muted">Plano</dt><dd>{p?.plan}</dd>
           <dt className="text-muted">Cadastro</dt><dd>{fmt(p?.created_at)} · último acesso {fmt(p?.last_sign_in_at)}</dd>
           <dt className="text-muted">Termos</dt><dd>{p?.terms_version || "não aceitou"} {p?.terms_accepted_at ? `em ${fmt(p.terms_accepted_at)}` : ""}</dd>
         </dl>
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          {cpf && <button className="btn-ghost text-sm" onClick={resetPassword}>Gerar PIN novo</button>}
+          {cpf && <button className="btn-ghost text-sm" onClick={makeLink}>Gerar link de acesso</button>}
+          {link && link !== "erro" && <span className="w-full break-all rounded-xl bg-surface-2 p-2 font-mono text-xs">{link} <button className="ml-2 underline" onClick={() => navigator.clipboard.writeText(link)}>copiar</button></span>}
+          {newPw && newPw !== "erro" && <span className="text-sm">PIN provisório: <strong className="font-mono text-lg">{newPw}</strong> (a pessoa cria o dela no próximo acesso)</span>}
+          {newPw === "erro" && <span className="text-sm text-danger">Não consegui gerar.</span>}
+        </div>
       </section>
 
       {h.risk_events.length > 0 && (
@@ -146,7 +171,7 @@ export function PersonHistory({ userId }: { userId: string }) {
         <div className="card p-4">
           <h2 className="font-bold">Rede de Cuidado</h2>
           <ul className="mt-2 space-y-1 text-sm">
-            {h.contacts.map((c, i) => <li key={i}>{c.name} · {c.kind === "profissional" ? c.profession : c.relation || "pessoa de confiança"} · {c.status}{c.linked ? " · no app" : ""}</li>)}
+            {h.contacts.map((c, i) => <li key={i}>{c.name} · {c.kind === "profissional" ? c.profession : c.relation || "Anjo da Guarda"} · {c.status}{c.linked ? " · no app" : ""}</li>)}
             {h.contacts.length === 0 && <li className="text-muted">Nenhum contato.</li>}
           </ul>
           {h.alerts.length > 0 && <>

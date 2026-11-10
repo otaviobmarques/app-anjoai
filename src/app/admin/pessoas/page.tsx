@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/supabase/server";
 
+
 export const dynamic = "force-dynamic";
 
 type Row = { user_id: string; name: string | null; email: string; tradition: string; plan: string; created_at: string; last_message_at: string | null; messages: number; max_risk: number | null; open_risks: number; is_admin: boolean };
@@ -36,7 +37,7 @@ export default async function Pessoas({ searchParams }: { searchParams: Promise<
             <Link href={`/admin/pessoas/${r.user_id}`} className={`card flex items-center justify-between gap-3 p-4 ${r.open_risks ? "border-danger" : ""}`}>
               <div className="min-w-0">
                 <p className="truncate font-bold">{r.name || "Sem nome"}{r.is_admin ? <span className="ml-2 text-xs text-gold-text">admin</span> : null}</p>
-                <p className="truncate text-xs text-muted">{r.email} · {r.tradition} · plano {r.plan}</p>
+                <p className="truncate text-xs text-muted">{r.email.endsWith("@cpf.anjo-ia.app") ? "login por CPF" : r.email} · {r.tradition} · plano {r.plan}</p>
                 <p className="text-xs text-muted">Desde {fmt(r.created_at)} · última mensagem {fmt(r.last_message_at)} · {r.messages} mensagens</p>
               </div>
               <div className="shrink-0 text-right text-xs">

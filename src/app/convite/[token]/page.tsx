@@ -22,7 +22,7 @@ export default async function Convite({ params }: { params: Promise<{ token: str
         <>
           <h1 className="mt-6 text-center text-xl font-extrabold">Olá, {inv.contact_name}.</h1>
           <p className="mt-3 leading-relaxed">
-            <strong>{inv.user_name}</strong> escolheu você {inv.kind === "profissional" ? "como profissional que acompanha" : "como pessoa de confiança"} no Anjo IA, um app cristão de apoio emocional. Se um dia {inv.user_name} apertar o botão SOS ou passar por um momento de risco grave, você recebe um aviso no app e uma notificação no seu celular para entrar em contato.
+            <strong>{inv.user_name}</strong> escolheu você {inv.kind === "profissional" ? "como profissional que acompanha" : "como o Anjo da Guarda dele(a)"} no Anjo IA, um app cristão de apoio emocional. Se um dia {inv.user_name} apertar o botão SOS ou passar por um momento de risco grave, você recebe um aviso no app e uma notificação no seu celular para entrar em contato.
           </p>
           <p className="mt-2 text-sm text-muted">Você não recebe o conteúdo das conversas. Pode sair da Rede quando quiser, pedindo para {inv.user_name} remover você.</p>
           <InviteAnswer token={token} status={inv.status} linked={inv.linked} loggedIn={!!user} email={user?.email ?? null} />

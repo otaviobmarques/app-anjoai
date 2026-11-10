@@ -71,7 +71,7 @@ export async function POST(req: Request) {
           const { data: evId } = await supabase.rpc("log_risk_event", { p_level: level, p_source: source, p_reason: reason, p_message_id: userMsg?.id ?? null });
           if (level >= 3 && !alerted && evId) {
             alerted = true;
-            const r = await alertCareNetwork(supabase, { riskEventId: evId as string, kind: "risco", userName });
+            const r = await alertCareNetwork(supabase, { riskEventId: evId as string, kind: "risco", userName, userPhone: profile.phone });
             send({ t: "alerted", ...r });
           }
         }
@@ -94,6 +94,17 @@ export async function POST(req: Request) {
         supabase.from("journey_memory").select("summary").maybeSingle(),
       ]);
       const turns = (history ?? []).reverse() as { role: "user" | "assistant"; content: string }[];
+
+      // Conversa nova: traz trechos das conversas anteriores para o Anjo dar continuidade
+      let previous = "";
+      if (turns.length <= 6) {
+        const { data: prev } = await supabase
+          .from("messages").select("role,content,created_at")
+          .neq("conversation_id", conversationId)
+          .order("created_at", { ascending: false }).limit(16);
+        const rows = ((prev ?? []) as { role: string; content: string; created_at: string }[]).reverse();
+        previous = rows.map((m) => `${m.role === "user" ? "Pessoa" : "Anjo"} (${new Date(m.created_at).toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" })}): ${m.content.slice(0, 400)}`).join("\n");
+      }
       const recentUser = turns.filter((m) => m.role === "user").slice(-3).map((m) => m.content);
 
       // Camada 2: classificador em paralelo
@@ -120,7 +131,7 @@ export async function POST(req: Request) {
           output_config: { effort: "low" },
           system: [
             { type: "text", text: MASTER_PROMPT, cache_control: { type: "ephemeral" } },
-            { type: "text", text: contextBlock({ name: profile.name, tradition: profile.tradition, bibleVersion: profile.bible_version, memory: (memory as { summary?: string } | null)?.summary, nowBR: nowBR() }) },
+            { type: "text", text: contextBlock({ name: profile.name, tradition: profile.tradition, bibleVersion: profile.bible_version, memory: (memory as { summary?: string } | null)?.summary, previous, nowBR: nowBR() }) },
           ],
           messages,
         });
@@ -159,10 +170,10 @@ export async function POST(req: Request) {
       }
       send({ t: "done", messageId: savedId });
 
-      // Memória da jornada: atualiza a cada 6 mensagens da pessoa
+      // Memória da jornada: atualiza a cada 4 mensagens da pessoa
       try {
         const userCount = turns.filter((m) => m.role === "user").length;
-        if (full && userCount % 6 === 0) await updateMemory(client, supabase, user.id, (memory as { summary?: string } | null)?.summary ?? "", turns.slice(-12));
+        if (full && userCount % 4 === 0) await updateMemory(client, supabase, user.id, (memory as { summary?: string } | null)?.summary ?? "", turns.slice(-12));
       } catch (e) {
         console.error("memory error", e);
       }

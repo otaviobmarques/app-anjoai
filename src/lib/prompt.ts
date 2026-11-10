@@ -58,6 +58,7 @@ export function contextBlock(opts: {
   tradition?: string;
   bibleVersion?: string;
   memory?: string;
+  previous?: string;
   nowBR: string;
 }) {
   const t = { evangelica: "evangélica", catolica: "católica", geral: "geral (cristã sem denominação)" } as Record<string, string>;
@@ -68,5 +69,8 @@ Versão da Bíblia preferida: ${opts.bibleVersion || "NVI"}
 Agora (horário de Brasília): ${opts.nowBR}
 
 ## Memória da jornada (o que você já sabe; retome com naturalidade, sem recitar)
-${opts.memory?.trim() || "Ainda não há memória. É o começo da caminhada."}`;
+${opts.memory?.trim() || "Ainda não há memória. É o começo da caminhada."}
+${opts.previous ? `
+## Trechos das últimas conversas (a pessoa não vê esse histórico na tela; use só para dar continuidade, sem citar literalmente)
+${opts.previous}` : ""}`;
 }

@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CrisisCard } from "@/components/CrisisCard";
 import { AngelArt } from "@/components/AngelArt";
@@ -114,7 +113,7 @@ export function Chat({ conversationId, initial, name, voiceReplies, theme, start
           <button className={`rounded-full border px-3 py-1.5 text-xs ${voice ? "border-gold text-gold-text" : "border-line text-muted"}`} onClick={() => { setVoice(!voice); stopSpeaking(); }} aria-pressed={voice}>
             {voice ? "Voz ligada" : "Voz desligada"}
           </button>
-          <Link href="/conversa?nova=1" className="rounded-full border border-line px-3 py-1.5 text-xs">Nova</Link>
+          <a href="/conversa" className="rounded-full border border-line px-3 py-1.5 text-xs">Recomeçar</a>
         </div>
       </header>
 

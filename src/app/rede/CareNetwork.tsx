@@ -63,7 +63,7 @@ export function CareNetwork({ initial, lastAlerts, myPhone, appUrl }: { initial:
     const url = `${appUrl || location.origin}/convite/${c.invite_token}`;
     const text = c.kind === "profissional"
       ? `Olá, ${c.name}! Uso o Anjo IA e gostaria que você fosse avisado(a) se eu apertar o SOS ou passar por um momento de risco. Pode aceitar por aqui? ${url}`
-      : `Oi, ${c.name}! Escolhi você como pessoa de confiança no Anjo IA. Se um dia eu precisar de ajuda, você recebe um aviso no celular. Pode aceitar aqui? ${url}`;
+      : `Oi, ${c.name}! Escolhi você como o meu Anjo da Guarda no Anjo IA 👼 Se um dia eu precisar de ajuda, você recebe um aviso no celular. Pode aceitar aqui? ${url}`;
     if (navigator.share) await navigator.share({ text }).catch(() => {});
     else { await navigator.clipboard.writeText(text); setInfo("Convite copiado. Cole numa mensagem (WhatsApp, SMS) para a pessoa."); }
   }
@@ -92,7 +92,7 @@ export function CareNetwork({ initial, lastAlerts, myPhone, appUrl }: { initial:
           <div key={c.id} className="card space-y-3 p-4">
             <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="font-bold">{c.name}<span className="font-normal text-muted"> · {c.kind === "profissional" ? c.profession || "Profissional" : c.relation || "Pessoa de confiança"}</span></p>
+                <p className="font-bold">{c.name}<span className="font-normal text-muted"> · {c.kind === "profissional" ? c.profession || "Profissional" : c.relation || "Anjo da Guarda"}</span></p>
                 <p className="text-sm text-muted">{[c.email, c.phone].filter(Boolean).join(" · ")}</p>
               </div>
               <span className={`shrink-0 rounded-full px-2 py-1 text-xs ${c.status === "confirmado" ? "bg-gold text-on-gold" : "border border-line"}`}>{STATUS[c.status]}</span>
@@ -117,7 +117,7 @@ export function CareNetwork({ initial, lastAlerts, myPhone, appUrl }: { initial:
         <form onSubmit={add} className="card space-y-3 p-4">
           <p className="font-bold">Adicionar à Rede de Cuidado</p>
           <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Tipo de contato">
-            {[["pessoa", "Pessoa de confiança"], ["profissional", "Profissional"]].map(([k, l]) => (
+            {[["pessoa", "Anjo da Guarda"], ["profissional", "Profissional"]].map(([k, l]) => (
               <button type="button" key={k} role="radio" aria-checked={form.kind === k} disabled={count(k) >= 2} onClick={() => setForm({ ...form, kind: k })}
                 className={`rounded-xl px-3 py-3 text-sm ${form.kind === k ? "bg-gold font-bold text-on-gold" : "border border-line"} disabled:opacity-40`}>{l}</button>
             ))}

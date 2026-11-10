@@ -43,10 +43,26 @@ Se a IA falhar ou recusar em uma conversa de risco, o app responde com um texto 
 - **Símbolo do anjo**: vetorizado automaticamente a partir do PNG. Trocar pelo vetor oficial do designer.
 - **Confirmação automática de e-mail** (trigger `autoconfirm_email`): só para o grupo fechado. Remover antes de abrir ao público.
 
+## Login: CPF + PIN
+
+- Usuário: CPF. Senha: PIN de 4 números (a tela de login mostra essa dica).
+- Esqueci o PIN: CPF + telefone cadastrado → o sistema gera um PIN novo e mostra na hora.
+- O PIN não é a senha guardada: a senha é `HMAC(AUTH_SECRET, cpf + PIN)` (`src/lib/pin-auth.ts`), então ninguém testa PINs direto no Supabase.
+- 5 PINs errados seguidos bloqueiam o CPF por 15 minutos.
+- As funções de login do banco só aceitam chamadas com a chave do servidor (o hash dela fica em `private.server_keys`).
+- **Trocar `AUTH_SECRET` invalida todos os PINs.** Se for trocar, atualize também o hash em `private.server_keys`.
+- Equipe: Painel → Pessoas → Cadastrar pessoa (CPF, PIN, telefone, Anjo da Guarda) gera o **link de acesso** (30 dias). O link leva um código, nunca o CPF.
+- Contas da equipe entram em "Acesso da equipe" com usuário/e-mail e senha.
+
+## WhatsApp (aviso automático ao Anjo da Guarda)
+
+Painel → "WhatsApp: aviso automático". Opções: desligado, API oficial (Meta Cloud API / Domma Chat: `WHATSAPP_META_TOKEN`) ou QR Code (Evolution API: `WHATSAPP_EVOLUTION_APIKEY`). Sem integração, o SOS ainda tem o botão que abre o WhatsApp da própria pessoa (wa.me).
+
 ## Variáveis de ambiente
 
 Veja `.env.example`.
 
+- `AUTH_SECRET`: chave do login CPF + PIN (obrigatória).
 - `ANTHROPIC_API_KEY`: sem ela o app funciona, mas a conversa e as orações respondem que a IA não está ligada. O SOS e as palavras-chave continuam funcionando.
 - `NEXT_PUBLIC_VAPID_PUBLIC_KEY` e `VAPID_PRIVATE_KEY`: notificações da Rede de Cuidado (gerar com `npx web-push generate-vapid-keys`).
 - `ELEVENLABS_API_KEY` (opcional `ELEVENLABS_VOICE_ID`, `ELEVENLABS_MODEL`): voz natural. Sem ela, usa a voz do navegador.

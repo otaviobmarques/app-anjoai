@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { pushAvailable, sendPush, type PushTarget } from "./push";
+import { getWhatsAppConfig, sendWhatsApp } from "./whatsapp-api";
 
 type Contact = { id: string; name: string; email: string | null; status: string; alert_on_risk: boolean; alert_on_sos: boolean; contact_user_id: string | null };
 
@@ -11,14 +12,27 @@ type Contact = { id: string; name: string; email: string | null; status: string;
  */
 export async function alertCareNetwork(
   supabase: SupabaseClient,
-  opts: { riskEventId: string; kind: "risco" | "sos"; userName: string },
+  opts: { riskEventId: string; kind: "risco" | "sos"; userName: string; userPhone?: string | null },
 ) {
+  // WhatsApp automático (se ligado no painel): vai também para quem ainda não aceitou o convite
+  let waSent = 0;
+  const wa = await getWhatsAppConfig(supabase);
+  if (wa.provider !== "desligado") {
+    const { data: wt } = await supabase.rpc("whatsapp_targets", { p_risk_event_id: opts.riskEventId });
+    for (const c of (wt ?? []) as { contact_id: string; name: string; phone: string }[]) {
+      const r = await sendWhatsApp(wa, c.phone, { contactName: c.name, userName: opts.userName, userPhone: opts.userPhone, kind: opts.kind === "sos" ? "sos" : "risco" });
+      await supabase.rpc("record_alert", { p_risk_event_id: opts.riskEventId, p_contact_id: c.contact_id, p_status: r.ok ? "enviado" : "falhou", p_error: r.ok ? null : r.error, p_channel: "whatsapp" });
+      if (r.ok) waSent++;
+    }
+  }
+
   const { data: contacts } = await supabase
     .from("trusted_contacts")
     .select("id,name,email,status,alert_on_risk,alert_on_sos,contact_user_id")
     .eq("status", "confirmado");
   const targets = ((contacts ?? []) as Contact[]).filter((c) => (opts.kind === "sos" ? c.alert_on_sos : c.alert_on_risk));
   if (targets.length === 0) {
+    if (waSent) return { sent: waSent, total: waSent };
     await supabase.rpc("record_alert", { p_risk_event_id: opts.riskEventId, p_contact_id: null, p_status: "falhou", p_error: "sem contato confirmado" });
     return { sent: 0, total: 0 };
   }
@@ -82,7 +96,7 @@ Anjo IA — este é um aviso automático. O Anjo IA não é serviço médico nem
       await supabase.rpc("record_alert", { p_risk_event_id: opts.riskEventId, p_contact_id: c.id, p_status: "falhou", p_error: String(e) });
     }
   }
-  return { sent, total: targets.length };
+  return { sent: Math.max(sent, waSent), total: Math.max(targets.length, waSent) };
 }
 
 export async function sendInviteEmail(opts: { to: string; contactName: string; userName: string; token: string }) {

@@ -8,5 +8,5 @@ export default async function Nova() {
   const { user, profile } = await getSession();
   if (!user) redirect("/entrar");
   if (!profile?.is_admin) redirect("/inicio");
-  return <NewPerson appUrl={process.env.NEXT_PUBLIC_APP_URL || "https://app.anjoia.com.br"} />;
+  return <NewPerson />;
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ReviewButtons } from "./ReviewButtons";
 import { AiTestButton } from "./AiStatus";
 import { VoicePicker } from "./VoicePicker";
+import { WhatsAppSettings } from "./WhatsAppSettings";
 import { TTS_MODEL } from "@/lib/tts";
 import { CHAT_MODEL, FAST_MODEL } from "@/lib/ai";
 import { PROMPT_VERSION } from "@/lib/prompt";
@@ -70,6 +71,11 @@ export default async function Admin() {
           <dt className="text-muted">Modelo</dt><dd><code>{TTS_MODEL}</code></dd>
         </dl>
         <VoicePicker />
+      </section>
+
+      <section className="card space-y-3 p-4">
+        <h2 className="font-bold">WhatsApp: aviso automático ao Anjo da Guarda</h2>
+        <WhatsAppSettings />
       </section>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {stat("Pessoas", users.count ?? 0)}

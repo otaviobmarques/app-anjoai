@@ -73,7 +73,7 @@ export function CareDashboard({ people, initialAlerts }: { people: CarePerson[];
               <li key={p.contact_id} className="card flex items-center justify-between gap-2 p-4">
                 <div>
                   <p className="font-bold">{p.person_name}</p>
-                  <p className="text-xs text-muted">{p.kind === "profissional" ? `Você acompanha como ${p.profession || "profissional"}` : "Você é pessoa de confiança"} · desde {new Date(p.since).toLocaleDateString("pt-BR")}</p>
+                  <p className="text-xs text-muted">{p.kind === "profissional" ? `Você acompanha como ${p.profession || "profissional"}` : "Você é o Anjo da Guarda dessa pessoa"} · desde {new Date(p.since).toLocaleDateString("pt-BR")}</p>
                 </div>
                 {p.person_phone && <a href={`tel:${p.person_phone}`} className="rounded-full border border-line px-3 py-1.5 text-xs">Ligar</a>}
               </li>
