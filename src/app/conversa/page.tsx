@@ -3,11 +3,11 @@ import { getSession } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
 import { Chat } from "./Chat";
 
-export default async function Conversa({ searchParams }: { searchParams: Promise<{ nova?: string }> }) {
+export default async function Conversa({ searchParams }: { searchParams: Promise<{ nova?: string; voz?: string }> }) {
   const { supabase, user, profile } = await getSession();
   if (!user) redirect("/entrar");
   if (!profile?.terms_version) redirect("/boas-vindas");
-  const { nova } = await searchParams;
+  const { nova, voz } = await searchParams;
 
   let conversationId: string | null = null;
   let initial: { role: "user" | "assistant"; content: string }[] = [];
@@ -21,7 +21,7 @@ export default async function Conversa({ searchParams }: { searchParams: Promise
   }
   return (
     <AppShell active="/conversa">
-      <Chat key={conversationId ?? "nova"} conversationId={conversationId} initial={initial} name={profile.name} voiceReplies={profile.voice_replies} theme={profile.angel_theme} />
+      <Chat key={conversationId ?? "nova"} conversationId={conversationId} initial={initial} name={profile.name} voiceReplies={profile.voice_replies} theme={profile.angel_theme} startVoice={voz === "1"} />
     </AppShell>
   );
 }

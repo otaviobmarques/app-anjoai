@@ -1,6 +1,6 @@
 // Anjo IA — service worker da Fase 0
 // SOS e números de emergência abrem sem internet.
-const CACHE = "anjo-v2";
+const CACHE = "anjo-v3";
 const PRECACHE = ["/sos", "/offline", "/brand/anjo.svg"];
 
 self.addEventListener("install", (e) => {
@@ -53,8 +53,8 @@ self.addEventListener("push", (e) => {
       tag: d.tag,
       renotify: true,
       requireInteraction: true,
-      icon: "/pwa-icon/192",
-      badge: "/pwa-icon/192",
+      icon: "/icons/icon-192.png",
+      badge: "/icons/icon-192.png",
       data: { url: d.url },
       vibrate: [300, 100, 300, 100, 300],
     }),

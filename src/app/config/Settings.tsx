@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { AngelArt, THEMES } from "@/components/AngelArt";
 import type { Profile } from "@/lib/supabase/server";
+import { InstallApp } from "@/components/InstallApp";
 
 function setCookie(k: string, v: string) {
   document.cookie = `${k}=${v}; path=/; max-age=31536000; samesite=lax`;
@@ -93,6 +94,8 @@ export function Settings({ profile, email, memory }: { profile: Profile; email: 
           <input type="checkbox" className="h-6 w-6 accent-[var(--gold)]" checked={p.voice_replies} onChange={(e) => update({ voice_replies: e.target.checked })} />
         </label>
       </section>
+
+      <InstallApp compact />
 
       <section className="card space-y-3 p-4">
         <h2 className="font-bold">O que o Anjo lembra de você</h2>

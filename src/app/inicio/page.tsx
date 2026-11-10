@@ -5,6 +5,7 @@ import { AppShell } from "@/components/AppShell";
 import { AngelArt } from "@/components/AngelArt";
 import { verseOfDay } from "@/lib/verses";
 import { SpeakButton } from "@/components/SpeakButton";
+import { InstallApp } from "@/components/InstallApp";
 
 function saudacao() {
   const h = Number(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo", hour: "numeric", hour12: false }));
@@ -36,6 +37,8 @@ export default async function Inicio() {
         <h1 className="mt-6 text-2xl font-extrabold">{saudacao()}{first ? `, ${first}` : ""}.</h1>
         <p className="mt-1 text-muted">Estou aqui com você.</p>
       </section>
+
+      <div className="mt-6"><InstallApp /></div>
 
       {caring > 0 && (
         <Link href="/cuidando" className={`mt-6 flex items-center justify-between rounded-2xl p-4 ${openAlerts ? "border-2 border-danger bg-danger-bg" : "card"}`}>

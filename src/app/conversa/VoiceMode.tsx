@@ -14,8 +14,9 @@ const LABEL: Record<State, string> = {
 };
 
 export function VoiceMode({
-  theme, sendText, crisisActive, onClose,
+  theme, sendText, crisisActive, onClose, autoStart = true,
 }: {
+  autoStart?: boolean;
   theme: "marca" | "asas" | "aureola";
   sendText: (t: string, viaAudio: boolean, hooks?: SendHooks) => Promise<void>;
   crisisActive: boolean;
@@ -104,14 +105,19 @@ export function VoiceMode({
       setErr("Este navegador não tem reconhecimento de voz. Use o Chrome (Android ou computador) ou o Safari no iPhone.");
       return;
     }
-    // a primeira fala precisa nascer de um toque (regra do iPhone): o toque no botão "Voz" já conta
+    // a primeira fala precisa nascer de um toque (regra do iPhone): o toque no botão "Voz" já conta.
+    // Aberto pelo atalho do ícone não houve toque: espera a pessoa tocar no anjo.
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") close(); };
+    addEventListener("keydown", onKey);
+    if (!autoStart) {
+      setState("parado");
+      return () => { removeEventListener("keydown", onKey); alive.current = false; speaker.current?.stop(); try { rec.current?.stop(); } catch {} };
+    }
     const hello = new SentenceSpeaker(() => listen());
     speaker.current = hello;
     hello.push("Pode falar, estou ouvindo.");
     hello.end();
     setState("falando");
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") close(); };
-    addEventListener("keydown", onKey);
     return () => { removeEventListener("keydown", onKey); alive.current = false; speaker.current?.stop(); try { rec.current?.stop(); } catch {} };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

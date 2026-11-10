@@ -12,13 +12,14 @@ type Theme = "marca" | "asas" | "aureola";
 
 export type SendHooks = { onDelta?: (t: string) => void; onRisk?: () => void; onDone?: (ok: boolean, full: string) => void };
 
-export function Chat({ conversationId, initial, name, voiceReplies, theme }: { conversationId: string | null; initial: Msg[]; name: string | null; voiceReplies: boolean; theme: Theme }) {
+export function Chat({ conversationId, initial, name, voiceReplies, theme, startVoice = false }: { conversationId: string | null; initial: Msg[]; name: string | null; voiceReplies: boolean; theme: Theme; startVoice?: boolean }) {
   const [msgs, setMsgs] = useState<Msg[]>(initial);
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [listening, setListening] = useState(false);
   const [voice, setVoice] = useState(voiceReplies);
-  const [voiceMode, setVoiceMode] = useState(false);
+  const [voiceMode, setVoiceMode] = useState(startVoice);
+  const [voiceAuto, setVoiceAuto] = useState(!startVoice);
   const [notice, setNotice] = useState("");
   const conv = useRef<string | null>(conversationId);
   const end = useRef<HTMLDivElement>(null);
@@ -172,7 +173,7 @@ export function Chat({ conversationId, initial, name, voiceReplies, theme }: { c
         )}
       </form>
 
-      {voiceMode && <VoiceMode theme={theme} sendText={sendText} crisisActive={crisisActive} onClose={() => setVoiceMode(false)} />}
+      {voiceMode && <VoiceMode theme={theme} sendText={sendText} crisisActive={crisisActive} autoStart={voiceAuto} onClose={() => { setVoiceMode(false); setVoiceAuto(true); }} />}
     </div>
   );
 }
