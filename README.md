@@ -17,7 +17,9 @@ Conselheiro cristão de bolso com IA. Implementa a **Fase 0** do *Descritivo té
 | Memória da jornada, visível e apagável (RF07) | `journey_memory`, Ajustes |
 | Orações personalizadas, salvar, ouvir; pedidos de oração (RF08) | `src/app/oracoes`, `src/app/api/oracao` |
 | Palavra do dia (RF09, sem notificação ainda) | `src/lib/verses.ts` |
-| Rede de Cuidado: até 2 contatos, convite e confirmação (RF12) | `src/app/rede`, `src/app/convite/[token]` |
+| Rede de Cuidado: até 2 pessoas + 2 profissionais, convite com conta vinculada (RF12) | `src/app/rede`, `src/app/convite/[token]` |
+| Pessoas que acompanho: avisos no app + notificação (Web Push), "Estou cuidando" | `src/app/cuidando`, `src/lib/push.ts`, `public/sw.js` |
+| Modo voz contínuo e voz natural (ElevenLabs) | `src/app/conversa/VoiceMode.tsx`, `src/lib/voice.ts`, `src/app/api/voz` |
 | Detecção de risco em camadas + alertas por e-mail (RF13) | `src/lib/risk.ts`, `src/lib/alerts.ts` |
 | Botão SOS sempre visível, funciona sem internet (RF14) | `src/components/SosButton.tsx`, `src/app/sos`, `public/sw.js` |
 | Limite do plano gratuito que nunca bloqueia crise (RF24) | `src/lib/limits.ts` |
@@ -46,7 +48,9 @@ Se a IA falhar ou recusar em uma conversa de risco, o app responde com um texto 
 Veja `.env.example`.
 
 - `ANTHROPIC_API_KEY`: sem ela o app funciona, mas a conversa e as orações respondem que a IA não está ligada. O SOS e as palavras-chave continuam funcionando.
-- `RESEND_API_KEY` e `ALERT_FROM`: sem elas, os alertas ficam registrados como "pendente" no painel e não são enviados. É preciso um domínio verificado no Resend (ex.: `anjoia.com.br`).
+- `NEXT_PUBLIC_VAPID_PUBLIC_KEY` e `VAPID_PRIVATE_KEY`: notificações da Rede de Cuidado (gerar com `npx web-push generate-vapid-keys`).
+- `ELEVENLABS_API_KEY` (opcional `ELEVENLABS_VOICE_ID`, `ELEVENLABS_MODEL`): voz natural. Sem ela, usa a voz do navegador.
+- `RESEND_API_KEY` e `ALERT_FROM`: e-mail para contatos sem conta no app. Sem elas, esses avisos ficam "pendente" no painel.
 
 ## Rodar localmente
 

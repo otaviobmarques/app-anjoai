@@ -12,7 +12,7 @@ const TRADITIONS = [
   { id: "geral", label: "Geral / ainda não sei" },
 ] as const;
 
-export function Onboarding({ initialName }: { initialName: string }) {
+export function Onboarding({ initialName, next = "" }: { initialName: string; next?: string }) {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [adult, setAdult] = useState(false);
@@ -40,7 +40,7 @@ export function Onboarding({ initialName }: { initialName: string }) {
     ]);
     setBusy(false);
     if (error) return setErr("Não consegui salvar. Tente de novo.");
-    router.replace("/inicio");
+    router.replace(next || "/inicio");
     router.refresh();
   }
 

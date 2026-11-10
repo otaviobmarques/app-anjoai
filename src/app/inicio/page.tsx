@@ -15,10 +15,13 @@ function saudacao() {
 }
 
 export default async function Inicio() {
-  const { user, profile } = await getSession();
+  const { supabase, user, profile } = await getSession();
   if (!user) redirect("/entrar");
   if (!profile?.terms_version || !profile.adult_confirmed) redirect("/boas-vindas");
   const v = verseOfDay();
+  const [{ data: people }, { data: careAlerts }] = await Promise.all([supabase.rpc("my_care_people"), supabase.rpc("my_care_alerts")]);
+  const openAlerts = ((careAlerts ?? []) as { acked_at: string | null }[]).filter((a) => !a.acked_at).length;
+  const caring = ((people ?? []) as unknown[]).length;
   const first = profile.name?.split(" ")[0];
 
   return (
@@ -33,6 +36,16 @@ export default async function Inicio() {
         <h1 className="mt-6 text-2xl font-extrabold">{saudacao()}{first ? `, ${first}` : ""}.</h1>
         <p className="mt-1 text-muted">Estou aqui com você.</p>
       </section>
+
+      {caring > 0 && (
+        <Link href="/cuidando" className={`mt-6 flex items-center justify-between rounded-2xl p-4 ${openAlerts ? "border-2 border-danger bg-danger-bg" : "card"}`}>
+          <span>
+            <span className="block font-bold">Pessoas que acompanho</span>
+            <span className="text-sm text-muted">{openAlerts ? `${openAlerts} ${openAlerts === 1 ? "aviso precisa" : "avisos precisam"} de você` : `${caring} ${caring === 1 ? "pessoa" : "pessoas"} na sua lista`}</span>
+          </span>
+          <span aria-hidden>›</span>
+        </Link>
+      )}
 
       <section className="card mt-6 p-5" aria-labelledby="pd">
         <div className="flex items-center justify-between">

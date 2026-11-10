@@ -1,10 +1,13 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { pushAvailable, sendPush, type PushTarget } from "./push";
 
-type Contact = { id: string; name: string; email: string | null; status: string; alert_on_risk: boolean; alert_on_sos: boolean };
+type Contact = { id: string; name: string; email: string | null; status: string; alert_on_risk: boolean; alert_on_sos: boolean; contact_user_id: string | null };
 
 /**
- * Avisa a Rede de Cuidado por e-mail (Resend). Fase 0: sem WhatsApp.
- * Sem RESEND_API_KEY/ALERT_FROM, o alerta fica registrado como "pendente" e aparece no painel.
+ * Avisa a Rede de Cuidado.
+ * - Contato com conta vinculada: aviso dentro do app ("Pessoas que acompanho") + notificação no aparelho.
+ * - Contato sem conta: e-mail (Resend). Sem RESEND_API_KEY/ALERT_FROM, fica registrado como "pendente" no painel.
+ * O contato nunca recebe o conteúdo das conversas.
  */
 export async function alertCareNetwork(
   supabase: SupabaseClient,
@@ -12,7 +15,7 @@ export async function alertCareNetwork(
 ) {
   const { data: contacts } = await supabase
     .from("trusted_contacts")
-    .select("id,name,email,status,alert_on_risk,alert_on_sos")
+    .select("id,name,email,status,alert_on_risk,alert_on_sos,contact_user_id")
     .eq("status", "confirmado");
   const targets = ((contacts ?? []) as Contact[]).filter((c) => (opts.kind === "sos" ? c.alert_on_sos : c.alert_on_risk));
   if (targets.length === 0) {
@@ -20,14 +23,35 @@ export async function alertCareNetwork(
     return { sent: 0, total: 0 };
   }
 
+  let sent = 0;
+
+  // 1) No app + notificação
+  const linked = targets.filter((c) => c.contact_user_id);
+  if (linked.length) {
+    const { data: subs } = pushAvailable() ? await supabase.rpc("care_push_targets", { p_risk_event_id: opts.riskEventId }) : { data: [] };
+    const byContact = new Map<string, PushTarget[]>();
+    for (const s of (subs ?? []) as (PushTarget & { contact_id: string })[]) {
+      byContact.set(s.contact_id, [...(byContact.get(s.contact_id) ?? []), s]);
+    }
+    const title = opts.kind === "sos" ? `${opts.userName} pediu ajuda agora` : `${opts.userName} pode precisar de você agora`;
+    for (const c of linked) {
+      await supabase.rpc("record_alert", { p_risk_event_id: opts.riskEventId, p_contact_id: c.id, p_status: "enviado", p_channel: "app" });
+      sent++;
+      for (const t of byContact.get(c.id) ?? []) {
+        const r = await sendPush(t, { title, body: "Toque para ver o aviso e entrar em contato.", url: "/cuidando", tag: `alerta-${opts.riskEventId}` });
+        if (r === "expirada") await supabase.rpc("drop_push_subscription", { p_endpoint: t.endpoint });
+      }
+    }
+  }
+
+  // 2) E-mail para quem não tem conta vinculada
   const key = process.env.RESEND_API_KEY;
   const from = process.env.ALERT_FROM;
-  let sent = 0;
-  for (const c of targets) {
+  for (const c of targets.filter((x) => !x.contact_user_id)) {
     if (!key || !from || !c.email) {
       await supabase.rpc("record_alert", {
         p_risk_event_id: opts.riskEventId, p_contact_id: c.id, p_status: "pendente",
-        p_error: !c.email ? "contato sem e-mail" : "envio de e-mail não configurado",
+        p_error: !c.email ? "contato sem e-mail e sem conta no app" : "contato sem conta no app; e-mail não configurado",
       });
       continue;
     }

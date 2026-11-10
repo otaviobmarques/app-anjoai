@@ -1,6 +1,6 @@
 // Anjo IA — service worker da Fase 0
 // SOS e números de emergência abrem sem internet.
-const CACHE = "anjo-v1";
+const CACHE = "anjo-v2";
 const PRECACHE = ["/sos", "/offline", "/brand/anjo.svg"];
 
 self.addEventListener("install", (e) => {
@@ -41,4 +41,35 @@ self.addEventListener("fetch", (e) => {
       caches.match(req).then((hit) => hit || fetch(req).then((res) => { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); return res; })),
     );
   }
+});
+
+// Avisos da Rede de Cuidado (Web Push). Sem conteúdo de conversa: só quem e o que fazer.
+self.addEventListener("push", (e) => {
+  let d = { title: "Anjo IA", body: "Você tem um aviso da Rede de Cuidado.", url: "/cuidando", tag: "anjo-alerta" };
+  try { d = { ...d, ...e.data.json() }; } catch {}
+  e.waitUntil(
+    self.registration.showNotification(d.title, {
+      body: d.body,
+      tag: d.tag,
+      renotify: true,
+      requireInteraction: true,
+      icon: "/pwa-icon/192",
+      badge: "/pwa-icon/192",
+      data: { url: d.url },
+      vibrate: [300, 100, 300, 100, 300],
+    }),
+  );
+});
+
+self.addEventListener("notificationclick", (e) => {
+  e.notification.close();
+  const url = (e.notification.data && e.notification.data.url) || "/cuidando";
+  e.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+      for (const c of list) {
+        if ("focus" in c) { c.navigate(url); return c.focus(); }
+      }
+      return self.clients.openWindow(url);
+    }),
+  );
 });

@@ -36,6 +36,7 @@ export type Profile = {
   is_admin: boolean;
   terms_version: string | null;
   adult_confirmed: boolean;
+  phone: string | null;
 };
 
 export async function getSession() {

@@ -1,13 +1,20 @@
 "use client";
 import { AngelSymbol } from "@/components/Logo";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 export default function Entrar() {
+  return <Suspense><EntrarForm /></Suspense>;
+}
+
+function EntrarForm() {
   const router = useRouter();
-  const [mode, setMode] = useState<"entrar" | "cadastro">("entrar");
+  const params = useSearchParams();
+  const rawNext = params.get("next") ?? "";
+  const next = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "";
+  const [mode, setMode] = useState<"entrar" | "cadastro">(params.get("modo") === "cadastro" ? "cadastro" : "entrar");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,8 +38,8 @@ export default function Entrar() {
     const { data, error } = await supabase.auth.signInWithPassword({ email: login, password });
     setBusy(false);
     if (error) return setError(traduz(error.message));
-    let dest = mode === "cadastro" ? "/boas-vindas" : "/inicio";
-    if (mode === "entrar" && data.user) {
+    let dest = mode === "cadastro" ? (next ? `/boas-vindas?next=${encodeURIComponent(next)}` : "/boas-vindas") : next || "/inicio";
+    if (mode === "entrar" && !next && data.user) {
       const { data: prof } = await supabase.from("profiles").select("is_admin").eq("id", data.user.id).single();
       if (prof?.is_admin) dest = "/admin";
     }

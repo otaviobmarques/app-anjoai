@@ -28,7 +28,7 @@ export default async function Admin() {
     supabase.from("messages").select("id", { count: "exact", head: true }).eq("role", "user"),
     supabase.from("messages").select("user_id").eq("role", "user").gte("created_at", weekAgo).limit(5000),
     supabase.from("risk_events").select("id,user_id,source,level,reason,review_status,created_at").order("created_at", { ascending: false }).limit(50),
-    supabase.from("alerts").select("id,status,error,created_at").order("created_at", { ascending: false }).limit(100),
+    supabase.from("alerts").select("id,status,error,created_at,channel,acked_at").order("created_at", { ascending: false }).limit(100),
   ]);
   const activeWeek = new Set((msgsWeek.data ?? []).map((m) => m.user_id)).size;
   const pending = (events.data ?? []).filter((e) => e.review_status === "pendente");
@@ -96,7 +96,7 @@ export default async function Admin() {
         <h2 className="font-bold">Alertas recentes</h2>
         <ul className="mt-2 space-y-1 text-sm">
           {(alerts.data ?? []).map((a) => (
-            <li key={a.id} className="text-muted">{new Date(a.created_at).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })} · <span className={a.status === "enviado" ? "text-gold-text" : "text-danger"}>{a.status}</span>{a.error ? ` · ${a.error}` : ""}</li>
+            <li key={a.id} className="text-muted">{new Date(a.created_at).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })} · {a.channel === "app" ? "app" : "e-mail"} · <span className={a.status === "enviado" ? "text-gold-text" : "text-danger"}>{a.status}</span>{a.acked_at ? " · atendido" : ""}{a.error ? ` · ${a.error}` : ""}</li>
           ))}
         </ul>
       </section>
