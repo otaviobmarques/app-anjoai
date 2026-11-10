@@ -3,6 +3,8 @@ import { getSession } from "@/lib/supabase/server";
 import Link from "next/link";
 import { ReviewButtons } from "./ReviewButtons";
 import { AiTestButton } from "./AiStatus";
+import { VoicePicker } from "./VoicePicker";
+import { TTS_MODEL } from "@/lib/tts";
 import { CHAT_MODEL, FAST_MODEL } from "@/lib/ai";
 import { PROMPT_VERSION } from "@/lib/prompt";
 
@@ -55,6 +57,16 @@ export default async function Admin() {
         </dl>
         <p className="text-xs text-muted">A chave fica guardada só na Vercel (variável protegida). Por segurança, aqui aparecem só o começo e o fim. Para trocar: Vercel → anjo-ia → Settings → Environment Variables.</p>
         <AiTestButton />
+      </section>
+
+      <section className="card space-y-3 p-4">
+        <h2 className="font-bold">Voz do Anjo (ElevenLabs)</h2>
+        <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+          <dt className="text-muted">Chave</dt>
+          <dd>{mask(process.env.ELEVENLABS_API_KEY) ? <code>{mask(process.env.ELEVENLABS_API_KEY)}</code> : <span className="text-danger">não configurada</span>}</dd>
+          <dt className="text-muted">Modelo</dt><dd><code>{TTS_MODEL}</code></dd>
+        </dl>
+        <VoicePicker />
       </section>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {stat("Pessoas", users.count ?? 0)}

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AngelArt } from "@/components/AngelArt";
 import { CrisisCard } from "@/components/CrisisCard";
-import { getRecognizer, SentenceSpeaker, voiceModeSupported } from "@/lib/voice";
+import { getRecognizer, SentenceSpeaker, unlockAudio, voiceModeSupported } from "@/lib/voice";
 import type { SendHooks } from "./Chat";
 
 type State = "ouvindo" | "pensando" | "falando" | "parado";
@@ -81,6 +81,7 @@ export function VoiceMode({
 
   function tap() {
     setErr("");
+    unlockAudio();
     if (state === "falando" || state === "pensando") {
       speaker.current?.stop();
       return listen();
@@ -139,7 +140,7 @@ export function VoiceMode({
         </div>
 
         <button className="btn-ghost mt-4 w-full" onClick={close}>Encerrar e voltar ao texto</button>
-        <p className="mt-2 text-center text-xs text-muted">A voz é transcrita pelo serviço do seu navegador (Google ou Apple).</p>
+        <p className="mt-2 text-center text-xs text-muted">O que você fala é transcrito pelo serviço do seu navegador (Google ou Apple).</p>
       </div>
     </div>
   );

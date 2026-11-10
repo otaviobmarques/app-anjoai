@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { CrisisCard } from "@/components/CrisisCard";
 import { AngelArt } from "@/components/AngelArt";
 import { AngelSymbol } from "@/components/Logo";
-import { getRecognizer, speak, stopSpeaking } from "@/lib/voice";
+import { getRecognizer, speak, stopSpeaking, unlockAudio } from "@/lib/voice";
 import { VoiceMode } from "./VoiceMode";
 
 export type Msg = { role: "user" | "assistant"; content: string; crisis?: boolean; alerted?: { sent: number; total: number } | null };
@@ -99,6 +99,7 @@ export function Chat({ conversationId, initial, name, voiceReplies, theme }: { c
     if (!t || busy) return;
     setText("");
     stopSpeaking();
+    if (voice) unlockAudio();
     await sendText(t, listening, { onDone: (ok, full) => { if (ok && voice) speak(full); } });
   }
 
@@ -123,7 +124,7 @@ export function Chat({ conversationId, initial, name, voiceReplies, theme }: { c
             <div className="card mt-8 p-5 text-left leading-relaxed">
               <p>Oi{first ? `, ${first}` : ""}. Que bom que você veio.</p>
               <p className="mt-2 text-muted">Pode me contar o que está no seu coração, por texto ou por voz. Estou aqui para ouvir, aconselhar e orar com você.</p>
-              <button className="btn-gold mt-4 w-full" onClick={() => setVoiceMode(true)}>Conversar por voz</button>
+              <button className="btn-gold mt-4 w-full" onClick={() => { unlockAudio(); setVoiceMode(true); }}>Conversar por voz</button>
             </div>
           </div>
         )}
@@ -164,7 +165,7 @@ export function Chat({ conversationId, initial, name, voiceReplies, theme }: { c
         {text.trim() ? (
           <button className="btn-gold h-12 shrink-0 px-4" disabled={busy} aria-label="Enviar">Enviar</button>
         ) : (
-          <button type="button" className="btn-gold flex h-12 shrink-0 items-center gap-2 px-3.5 sm:px-4" onClick={() => { stopSpeaking(); setVoiceMode(true); }} disabled={busy} aria-label="Conversar por voz em tempo real">
+          <button type="button" className="btn-gold flex h-12 shrink-0 items-center gap-2 px-3.5 sm:px-4" onClick={() => { stopSpeaking(); unlockAudio(); setVoiceMode(true); }} disabled={busy} aria-label="Conversar por voz em tempo real">
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden><path d="M4 10v4M8 7v10M12 4v16M16 7v10M20 10v4" /></svg>
             <span className="hidden sm:inline">Voz</span>
           </button>
