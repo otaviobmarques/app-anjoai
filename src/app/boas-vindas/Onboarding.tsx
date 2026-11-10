@@ -37,7 +37,7 @@ export function Onboarding({ next = "" }: { initialName?: string; next?: string 
       <p className="mt-2 text-center leading-relaxed text-muted">Sou uma inteligência artificial que acolhe, aconselha com base na Bíblia e ora com você. Não substituo psicólogo, médico nem pastor. Em perigo, ligue 188.</p>
       <label className="mt-6 flex items-start gap-3 text-sm">
         <input type="checkbox" className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--gold)]" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
-        <span>Tenho 18 anos ou mais e aceito os <Link href="/termos" target="_blank" className="text-gold-text underline">termos e a privacidade</Link>.</span>
+        <span>Tenho 18 anos ou mais e aceito os <Link href="/termos" target="_blank" className="text-gold-text underline">termos e a privacidade</Link>, incluindo que a equipe de cuidado pode acompanhar as minhas conversas para me ajudar.</span>
       </label>
       {err && <p className="mt-2 text-sm text-danger">{err}</p>}
       <button className="btn-gold mt-5 w-full" disabled={!agree || busy} onClick={finish}>{busy ? "Salvando…" : "Começar"}</button>

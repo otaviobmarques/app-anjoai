@@ -144,7 +144,7 @@ function EntrarForm() {
         {mode === "cadastro" && (
           <label className="flex items-start gap-3 pt-1 text-sm">
             <input type="checkbox" className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--gold)]" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
-            <span>Tenho 18 anos ou mais e aceito os <Link href="/termos" target="_blank" className="text-gold-text underline">termos e a privacidade</Link>.</span>
+            <span>Tenho 18 anos ou mais e aceito os <Link href="/termos" target="_blank" className="text-gold-text underline">termos e a privacidade</Link>, incluindo que a equipe de cuidado pode acompanhar as minhas conversas para me ajudar.</span>
           </label>
         )}
 
