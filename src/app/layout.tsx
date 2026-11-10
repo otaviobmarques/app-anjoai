@@ -25,9 +25,9 @@ export const metadata: Metadata = {
     title: "Anjo IA — Asas de luz para o seu dia a dia",
     description: DESCRIPTION,
     url: "/",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Anjo IA — Asas de luz para o seu dia a dia" }],
+    images: [{ url: "/og.png?v=2", width: 1200, height: 630, alt: "Anjo IA — Asas de luz para o seu dia a dia" }],
   },
-  twitter: { card: "summary_large_image", title: "Anjo IA — Asas de luz para o seu dia a dia", description: DESCRIPTION, images: ["/og.png"] },
+  twitter: { card: "summary_large_image", title: "Anjo IA — Asas de luz para o seu dia a dia", description: DESCRIPTION, images: ["/og.png?v=2"] },
 };
 
 export const viewport: Viewport = {
