@@ -6,8 +6,8 @@ const NAV = [
   { href: "/inicio", label: "Início", icon: "M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
   { href: "/conversa", label: "Conversar", icon: "M4 5h16v11H8l-4 4z" },
   { href: "/oracoes", label: "Orações", icon: "M12 3v6m0 0c-3 2-5 6-5 9h10c0-3-2-7-5-9z" },
+  { href: "/paz", label: "Paz", icon: "M12 21c-4-3-8-6-8-11a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-4 8-8 11z" },
   { href: "/rede", label: "Rede", icon: "M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2 20c0-3 3-5 6-5s6 2 6 5m2-5c3 0 6 2 6 5" },
-  { href: "/config", label: "Ajustes", icon: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm8-3 2-1-2-4-2 .5-1.5-1.5L16 4l-4-1-1 2H9L8 3 4 4.5l.5 2L3 8l-2 1v4l2 1 1.5 1.5L4 19.5 8 21l1-2h2l1 2 4-1.5-.5-2 1.5-1.5 2 .5 2-4z" },
 ];
 
 export function AppShell({ children, active }: { children: React.ReactNode; active: string }) {

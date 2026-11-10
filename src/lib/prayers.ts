@@ -8,7 +8,7 @@ export type Tradition = "evangelica" | "catolica" | "geral";
 export type Prayer = {
   id: string;
   title: string;
-  group: "Orações da fé" | "Pedidos especiais" | "Salmos" | "Para o dia a dia";
+  group: "Orações da fé" | "Pedidos especiais" | "Família" | "Coração" | "Salmos" | "Para o dia a dia";
   note?: string;
   for: Tradition[];
   text: string;
@@ -97,6 +97,77 @@ export const PRAYERS: Prayer[] = [
     note: "Uma decisão, uma prova, uma entrevista, uma causa",
     for: TODAS,
     text: "Senhor, hoje existe algo muito importante no meu coração, e tu sabes exatamente o que é. Eu coloco essa causa nas tuas mãos. Se for uma decisão, me dá clareza para escolher o que é certo. Se for uma prova, uma entrevista ou uma conversa difícil, me dá calma, memória e as palavras certas. Se a resposta depender de outras pessoas, toca o coração delas. Que seja feita a tua vontade, e que eu tenha paz com o resultado, sabendo que tu cuidas de mim em cada detalhe. Eu confio em ti, antes, durante e depois. Em nome de Jesus, amém.",
+  },
+  {
+    id: "emprego",
+    title: "Oração pelo emprego",
+    group: "Pedidos especiais",
+    for: TODAS,
+    text: "Senhor, tu conheces as minhas necessidades e a minha vontade de trabalhar com dignidade. Abre portas de trabalho para mim e me dá coragem para bater nas portas certas. Na entrevista, me dá calma e as palavras certas. No trabalho que eu tenho, me ajuda a ser fiel, honesto e dedicado. Livra o meu coração do desânimo enquanto espero, e lembra-me de que o meu valor não está no meu emprego, mas em ser teu filho. Em nome de Jesus, amém.",
+  },
+  {
+    id: "viagem",
+    title: "Oração antes de viajar",
+    group: "Pedidos especiais",
+    for: TODAS,
+    text: "Senhor, eu coloco esta viagem nas tuas mãos. Vai à minha frente no caminho e guarda a minha saída e a minha chegada. Dá atenção e prudência a quem dirige, livra-nos de acidentes e de todo perigo. Cuida de quem fica e de quem vai. Que eu chegue em paz e volte em paz para casa. Em nome de Jesus, amém.",
+  },
+  {
+    id: "gratidao",
+    title: "Oração de gratidão",
+    group: "Pedidos especiais",
+    for: TODAS,
+    text: "Senhor, hoje eu só quero te agradecer. Obrigado pela vida, pelo ar que eu respiro e por mais um dia. Obrigado pelas pessoas que eu amo e pelas que me amam. Obrigado pelas portas que se abriram e também pelas que se fecharam para me proteger. Obrigado por estar comigo nos dias bons e nos dias difíceis. Que o meu coração seja sempre agradecido. Em nome de Jesus, amém.",
+  },
+  {
+    id: "familia",
+    title: "Oração pela família",
+    group: "Família",
+    for: TODAS,
+    text: "Senhor, eu entrego a minha família nas tuas mãos. Abençoa cada pessoa da minha casa pelo nome. Onde houver briga, traz paz. Onde houver distância, traz reencontro. Onde houver mágoa, traz perdão. Que a nossa casa seja um lugar de amor, de respeito e de oração. Protege quem está perto e quem está longe, e une o nosso coração em ti. Em nome de Jesus, amém.",
+  },
+  {
+    id: "filhos",
+    title: "Oração pelos filhos",
+    group: "Família",
+    for: TODAS,
+    text: "Senhor, eu te apresento os meus filhos. Tu os conheces melhor do que eu. Guarda o corpo, a mente e o coração deles. Livra-os das más companhias, dos vícios e de todo perigo. Dá a eles sabedoria nas escolhas, amigos verdadeiros e um propósito bonito para a vida. E me dá paciência, amor e sabedoria para ser o pai ou a mãe de que eles precisam. Em nome de Jesus, amém.",
+  },
+  {
+    id: "casamento",
+    title: "Oração pelo casamento",
+    group: "Família",
+    for: TODAS,
+    text: "Senhor, eu te entrego o meu casamento. Renova o nosso amor, a nossa amizade e o nosso respeito. Ensina-nos a conversar com calma, a ouvir de verdade e a perdoar de coração. Afasta de nós o orgulho, a frieza e tudo o que quer nos separar. Que nós sejamos um para o outro abrigo e alegria, e que tu estejas sempre no centro da nossa casa. Em nome de Jesus, amém.",
+  },
+  {
+    id: "perdao",
+    title: "Oração de perdão",
+    group: "Coração",
+    for: TODAS,
+    text: "Senhor, existe uma mágoa no meu coração que eu não consigo carregar mais. Tu sabes quem me feriu e o quanto doeu. Eu não quero mais que essa dor mande em mim. Me ajuda a perdoar, mesmo que eu ainda não sinta vontade. Cura a ferida, tira o amargor e me devolve a paz. E perdoa também os meus erros, assim como eu quero perdoar. Em nome de Jesus, amém.",
+  },
+  {
+    id: "luto",
+    title: "Oração no luto",
+    group: "Coração",
+    for: TODAS,
+    text: "Senhor, a saudade aperta e a dor é grande. Tu conheces a falta que essa pessoa faz na minha vida. Eu te agradeço pelo tempo que vivemos juntos e por todo o amor que ficou. Consola o meu coração e o de toda a minha família. Segura a minha mão nos dias em que a tristeza voltar. Que eu encontre força em ti e esperança no teu amor, que é mais forte que a morte. Em nome de Jesus, amém.",
+  },
+  {
+    id: "cura-interior",
+    title: "Oração de cura interior",
+    group: "Coração",
+    for: TODAS,
+    text: "Senhor, tu conheces as feridas que ninguém vê. As palavras que me machucaram, as lembranças que ainda doem e os medos que eu carrego desde há muito tempo. Entra em cada lugar do meu coração que precisa da tua luz. Onde houver rejeição, me lembra de que eu sou amado. Onde houver culpa, me dá o teu perdão. Onde houver medo, me dá a tua paz. Cura o que eu não consigo curar sozinho. Em nome de Jesus, amém.",
+  },
+  {
+    id: "libertacao",
+    title: "Oração de libertação",
+    group: "Coração",
+    note: "De vícios e amarras",
+    for: TODAS,
+    text: "Senhor, eu reconheço que existe algo que me prende e que eu não consigo vencer sozinho. Pode ser um vício, um hábito, um pensamento ou um peso que me domina. Eu não quero mais viver assim. Quebra toda amarra que me impede de ser livre e me dá força para dizer não um dia de cada vez. Se eu cair, me levanta sem me condenar. Coloca pessoas certas no meu caminho para me ajudar. Onde o teu Espírito está, ali há liberdade. Em nome de Jesus, amém.",
   },
   {
     id: "salmo-23",

@@ -33,7 +33,12 @@ export default async function Inicio() {
     <AppShell active="/inicio">
       <header className="flex items-center justify-between">
         <p className="text-sm font-bold">Anjo <span className="text-gold-text">IA</span></p>
-        {profile.is_admin && <Link href="/admin" className="text-xs text-muted underline">Painel</Link>}
+        <span className="flex items-center gap-3">
+          {profile.is_admin && <Link href="/admin" className="text-xs text-muted underline">Painel</Link>}
+          <Link href="/config" aria-label="Ajustes" className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-muted">
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" aria-hidden><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" /></svg>
+          </Link>
+        </span>
       </header>
 
       <section className="mt-6 text-center">
@@ -69,7 +74,7 @@ export default async function Inicio() {
       <section className="mt-5 grid grid-cols-2 gap-3">
         <Link href="/conversa" className="btn-gold col-span-2 flex items-center justify-center text-lg">Conversar</Link>
         <Link href="/oracoes" className="btn-ghost flex items-center justify-center">Orar</Link>
-        <Link href="/rede" className="btn-ghost flex items-center justify-center">Minha Rede</Link>
+        <Link href="/paz" className="btn-ghost flex items-center justify-center">Momento de paz</Link>
         <div className="col-span-2 rounded-2xl border border-dashed border-line p-4 text-center text-sm text-muted">
           Minha jornada (trilhas, contador de dias, diário) chega na próxima fase.
         </div>
