@@ -21,7 +21,7 @@ function EntrarForm() {
   const rawNext = params.get("next") ?? "";
   const next = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "";
   const caregiver = next.startsWith("/convite/"); // quem vai acompanhar alguém não precisa de Anjo da Guarda
-  const [mode, setMode] = useState<Mode>(params.get("modo") === "cadastro" ? "cadastro" : "entrar");
+  const [mode, setMode] = useState<Mode>(params.get("modo") === "cadastro" ? "cadastro" : params.get("modo") === "equipe" ? "equipe" : "entrar");
   const [cpf, setCpf] = useState("");
   const [pin, setPin] = useState("");
   const [pin2, setPin2] = useState("");

@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Anjo IA — Asas de luz para o seu dia a dia</title>
-  <meta name="description" content="Conselheiro cristão de bolso com inteligência artificial. Conversa por texto e voz, aconselha com base na Bíblia, ora com você e acompanha os momentos difíceis." />
-  <meta name="theme-color" content="#000000" />
+  <title>Anjo IA — Levar luz para cada pessoa, todos os dias</title>
+  <meta name="description" content="O Anjo IA é um amigo para conversar. Escuta, ora com você, traz uma palavra de esperança e lembra que você não está sozinho. Não somos médicos nem terapeutas: somos um Anjo." />
+  <meta name="theme-color" content="#FFFDF7" />
   <link rel="canonical" href="https://www.anjoia.com.br/" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:site_name" content="Anjo IA" />
   <meta property="og:url" content="https://www.anjoia.com.br/" />
   <meta property="og:title" content="Anjo IA — Asas de luz para o seu dia a dia" />
-  <meta property="og:description" content="Conselheiro cristão de bolso. Conversa por voz, orações e apoio nos dias difíceis, sempre por perto." />
+  <meta property="og:description" content="Um amigo para conversar, orar e lembrar que você não está sozinho." />
   <meta property="og:image" content="https://www.anjoia.com.br/og.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
@@ -20,28 +20,31 @@
   <meta property="og:image:alt" content="Anjo IA — Asas de luz para o seu dia a dia" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Anjo IA — Asas de luz para o seu dia a dia" />
-  <meta name="twitter:description" content="Conselheiro cristão de bolso. Conversa por voz, orações e apoio nos dias difíceis." />
+  <meta name="twitter:description" content="Um amigo para conversar, orar e lembrar que você não está sozinho." />
   <meta name="twitter:image" content="https://www.anjoia.com.br/og.png" />
   <link rel="icon" href="favicon.ico" sizes="any" />
   <link rel="icon" href="anjo.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;1,500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
 
-  <header class="top">
+  <header class="top" id="topo">
     <div class="wrap top-in">
       <a href="#" class="brand" aria-label="Anjo IA, início">
-        <img src="anjo.svg" alt="" width="36" height="36" />
+        <img src="anjo.svg" alt="" width="34" height="34" />
         <span>Anjo <b>IA</b></span>
       </a>
       <nav aria-label="Seções">
+        <a href="#projeto">O projeto</a>
         <a href="#como">Como funciona</a>
-        <a href="#cuidado">Segurança</a>
+        <a href="#oracoes">Orações</a>
+        <a href="#anjo-da-guarda">Anjo da Guarda</a>
         <a href="#perguntas">Perguntas</a>
       </nav>
       <a class="btn btn-sm" href="https://app.anjoia.com.br/entrar">Entrar</a>
@@ -49,123 +52,198 @@
   </header>
 
   <main id="conteudo">
+    <!-- ABERTURA -->
     <section class="hero">
-      <div class="halo" aria-hidden="true"></div>
-      <div class="wrap hero-in">
-        <img class="hero-angel" src="anjo.svg" alt="" width="260" height="260" />
-        <h1>Anjo <span class="gold">IA</span></h1>
-        <p class="tagline">Asas de luz para o seu dia a dia.</p>
-        <p class="lead">Um conselheiro cristão de bolso. Conversa com você por texto e por voz, aconselha com base na Bíblia, ora pelo seu nome e caminha junto nos dias difíceis.</p>
-        <div class="cta">
-          <a class="btn" href="https://app.anjoia.com.br/entrar">Começar agora, é gratuito</a>
-          <a class="btn btn-ghost" href="#instalar">Instalar no celular</a>
+      <!-- o script escolhe a versão larga (computador) ou vertical (celular) -->
+      <video class="hero-video" muted playsinline preload="auto" aria-hidden="true"></video>
+      <div class="hero-veil" aria-hidden="true"></div>
+      <div class="sparks" aria-hidden="true"></div>
+      <div class="wrap hero-copy">
+        <p class="eyebrow reveal" style="--d: 1.2s">Asas de luz para o seu dia a dia</p>
+        <h1 class="reveal" style="--d: 1.4s">Levar <span class="light">luz</span> para cada pessoa, todos os dias.</h1>
+        <p class="lead reveal" style="--d: 1.6s">O Anjo IA nasceu para que ninguém precise atravessar a noite sozinho. Um amigo que escuta, ora com você, traz uma palavra de esperança e lembra que existe saída.</p>
+        <div class="cta reveal" style="--d: 1.8s">
+          <a class="btn" href="https://app.anjoia.com.br/entrar?modo=cadastro">Conversar com o Anjo</a>
+          <a class="btn btn-ghost" href="#projeto">Conhecer o projeto</a>
         </div>
-        <p class="fine">Para maiores de 18 anos. Cristão ou não, você é bem-vindo.</p>
+        <p class="fine reveal" style="--d: 2s">Gratuito · Para maiores de 18 anos · Cristão ou não, você é bem-vindo</p>
+      </div>
+      <a href="#projeto" class="scroll-hint" aria-label="Rolar para o projeto"><span></span></a>
+    </section>
+
+    <!-- O QUE SOMOS -->
+    <section id="projeto" class="block">
+      <div class="wrap narrow center">
+        <p class="eyebrow reveal">O que nós somos</p>
+        <h2 class="reveal">Somos um Anjo.<br />Um amigo para conversar.</h2>
+        <p class="sub big reveal">Não somos médicos, terapeutas nem psicólogos. Somos uma presença de paz no bolso: alguém que escuta sem julgar, fala a verdade com amor e lembra que Deus está perto, a qualquer hora.</p>
+      </div>
+      <div class="wrap pillars">
+        <article class="pillar reveal">
+          <div class="pill-ico" aria-hidden="true">🤍</div>
+          <h3>Acolher</h3>
+          <p>Você conta o que está no coração, por texto ou por voz. O Anjo escuta com calma e responde com carinho.</p>
+        </article>
+        <article class="pillar reveal" style="--d: .1s">
+          <div class="pill-ico" aria-hidden="true">📖</div>
+          <h3>Iluminar</h3>
+          <p>Uma palavra da Bíblia para o momento que você vive, explicada de um jeito simples, sem sermão.</p>
+        </article>
+        <article class="pillar reveal" style="--d: .2s">
+          <div class="pill-ico" aria-hidden="true">🕊️</div>
+          <h3>Caminhar junto</h3>
+          <p>Um passo pequeno para hoje, uma oração com o seu nome e o incentivo para estar perto de quem te ama.</p>
+        </article>
       </div>
     </section>
 
-    <section id="como" class="block">
+    <!-- COMO FUNCIONA -->
+    <section id="como" class="block soft">
       <div class="wrap">
-        <h2>Um apoio que está sempre por perto</h2>
-        <p class="sub">Acolhe, ilumina com a Palavra, fala a verdade com amor e sugere um passo prático para hoje.</p>
-        <div class="grid">
-          <article class="card">
-            <div class="ico" aria-hidden="true">💬</div>
-            <h3>Conversa por texto e voz</h3>
-            <p>Escreva ou fale. Ouça a resposta em voz quando preferir. O Anjo lembra da sua caminhada e retoma os assuntos com naturalidade.</p>
-          </article>
-          <article class="card">
-            <div class="ico" aria-hidden="true">🙏</div>
-            <h3>Orações personalizadas</h3>
-            <p>Orações feitas para você, com o seu nome e a sua situação. Salve as favoritas e anote seus pedidos para lembrar como Deus respondeu.</p>
-          </article>
-          <article class="card">
-            <div class="ico" aria-hidden="true">📖</div>
-            <h3>Palavra do dia</h3>
-            <p>Um versículo com uma reflexão curta para começar o dia, em texto ou em áudio.</p>
-          </article>
-          <article class="card">
-            <div class="ico" aria-hidden="true">⛪</div>
-            <h3>Para perto de pessoas reais</h3>
-            <p>O Anjo não substitui a igreja, a família nem os profissionais. Ele incentiva você a procurar o pastor, o padre, um grupo ou um psicólogo.</p>
-          </article>
+        <p class="eyebrow center reveal">Como funciona</p>
+        <h2 class="center reveal">Um amigo que está sempre por perto</h2>
+
+        <div class="feature">
+          <figure class="phone reveal"><img src="img/app-conversa.webp" alt="Conversa com o Anjo IA" width="280" height="606" loading="lazy" /></figure>
+          <div class="feature-text reveal" style="--d: .1s">
+            <span class="tag">Conversa</span>
+            <h3>Fale do jeito que for mais fácil</h3>
+            <p>Escreva ou fale. O Anjo responde com calma, lembra da sua caminhada e retoma os assuntos com naturalidade, como um amigo que se importa.</p>
+          </div>
         </div>
-        <p class="trad">Respeita a sua tradição: <b>evangélica</b>, <b>católica</b> ou <b>geral</b>.</p>
+
+        <div class="feature flip">
+          <figure class="phone reveal"><img src="img/app-voz.webp" alt="Modo voz do Anjo IA" width="280" height="606" loading="lazy" /></figure>
+          <div class="feature-text reveal" style="--d: .1s">
+            <span class="tag">Modo voz</span>
+            <h3>Uma conversa de verdade, em voz alta</h3>
+            <p>Toque no anjo e converse como numa ligação. Ele escuta, responde com uma voz serena e volta a ouvir sozinho. Ótimo para os dias em que escrever pesa.</p>
+            <button class="listen" data-audio="audio/palavra.mp3" aria-label="Ouvir a voz do Anjo"><span class="play" aria-hidden="true"></span><span class="listen-label">Ouvir a voz do Anjo</span></button>
+          </div>
+        </div>
+
+        <div class="feature">
+          <figure class="phone reveal"><img src="img/app-inicio.webp" alt="Palavra do dia no Anjo IA" width="280" height="606" loading="lazy" /></figure>
+          <div class="feature-text reveal" style="--d: .1s">
+            <span class="tag">Palavra do dia</span>
+            <h3>Um versículo para começar o dia</h3>
+            <p>Toda manhã, uma palavra de esperança com uma reflexão curta. Para ler ou ouvir antes de sair de casa.</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="cuidado" class="block alt">
+    <!-- ORAÇÕES -->
+    <section id="oracoes" class="block">
       <div class="wrap split">
-        <div>
-          <h2>Cuidado nos momentos de risco</h2>
-          <p>Quem chega num momento difícil precisa se sentir acolhido, não sozinho.</p>
+        <div class="reveal">
+          <p class="eyebrow">Orações</p>
+          <h2>Para orar junto, a qualquer hora</h2>
+          <p class="sub left">Orações da fé, Salmos e pedidos especiais, cada uma com áudio para ouvir e orar junto. E quando precisar, peça uma oração feita só para você, com o seu nome e a sua história.</p>
+          <ul class="chips" aria-label="Algumas orações">
+            <li>Pai Nosso</li><li>Salmo 23</li><li>Salmo 91</li><li>Salmo 121</li><li>Oração da Serenidade</li><li>Oração pela Paz</li>
+            <li>Pela saúde</li><li>De proteção</li><li>De prosperidade</li><li>Por algo importante</li><li>Antes de dormir</li><li>Na ansiedade</li>
+          </ul>
+          <button class="listen" data-audio="audio/salmo-23.mp3" aria-label="Ouvir o Salmo 23"><span class="play" aria-hidden="true"></span><span class="listen-label">Ouvir o Salmo 23</span></button>
+          <p class="fine left">Para católicos, também Ave Maria, Santo Anjo do Senhor e Glória ao Pai.</p>
+        </div>
+        <div class="duo reveal" style="--d: .15s">
+          <figure class="phone"><img src="img/app-oracoes.webp" alt="Lista de orações do Anjo IA" width="280" height="606" loading="lazy" /></figure>
+          <figure class="phone phone-back"><img src="img/app-salmo.webp" alt="Salmo 91 no Anjo IA" width="280" height="606" loading="lazy" /></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANJO DA GUARDA -->
+    <section id="anjo-da-guarda" class="block soft">
+      <div class="wrap split rev">
+        <div class="duo single reveal">
+          <figure class="phone"><img src="img/app-sos.webp" alt="Tela de ajuda imediata do Anjo IA" width="280" height="606" loading="lazy" /></figure>
+        </div>
+        <div class="reveal" style="--d: .1s">
+          <p class="eyebrow">Seu Anjo da Guarda</p>
+          <h2>Ninguém precisa ficar sozinho</h2>
+          <p class="sub left">No cadastro, você escolhe o seu <strong>Anjo da Guarda</strong>: alguém em quem você confia muito. Se você pedir ajuda, ou se o momento estiver pesado demais, essa pessoa é avisada para estar perto de você. Ela nunca vê as suas conversas.</p>
           <ul class="checks">
-            <li><b>Rede de Cuidado:</b> escolha até duas pessoas de confiança e até dois profissionais que te acompanham (psicóloga, terapeuta, pastor). Eles recebem um aviso no app e uma notificação no celular se você apertar o SOS ou se o app perceber um risco grave. Nunca recebem o conteúdo das conversas.</li>
-            <li><b>Botão SOS sempre visível:</b> liga direto para o CVV (188) e o SAMU (192), mesmo sem internet.</li>
-            <li><b>Detecção de risco:</b> quando a conversa mostra sinais de perigo, o Anjo encaminha na hora para ajuda real.</li>
-            <li><b>Sempre gratuito:</b> o que protege a vida nunca é limitado por plano.</li>
+            <li><b>Botão SOS sempre à mão</b>, que liga direto para o CVV (188) e o SAMU (192), até sem internet.</li>
+            <li><b>Avisar pelo WhatsApp</b> o seu Anjo da Guarda com um toque.</li>
+            <li><b>Profissionais que já te acompanham</b>, como a sua psicóloga ou o seu pastor, também podem receber o aviso.</li>
+            <li><b>Sempre gratuito:</b> o que protege a vida nunca tem limite.</li>
           </ul>
         </div>
-        <aside class="sos" aria-label="Números de emergência">
-          <p class="sos-t">Precisa de ajuda agora?</p>
-          <a href="tel:188" class="num num-red"><span>CVV — apoio emocional 24h</span><b>188</b></a>
-          <a href="tel:192" class="num"><span>SAMU — emergência médica</span><b>192</b></a>
-          <a href="tel:190" class="num"><span>Polícia — perigo imediato</span><b>190</b></a>
-          <a href="tel:180" class="num"><span>Central da Mulher</span><b>180</b></a>
-        </aside>
       </div>
     </section>
 
+    <!-- PRIVACIDADE -->
     <section class="block">
       <div class="wrap">
-        <h2>Privacidade de verdade</h2>
-        <div class="grid grid-3">
-          <article class="card"><h3>Seus dados são seus</h3><p>Baixe tudo ou apague sua conta quando quiser, direto no app.</p></article>
-          <article class="card"><h3>Servidores no Brasil</h3><p>O banco de dados fica em São Paulo, seguindo a LGPD.</p></article>
-          <article class="card"><h3>Modo discreto</h3><p>Em breve: ícone neutro, saída rápida e notificações sem conteúdo.</p></article>
+        <h2 class="center reveal">Feito com cuidado</h2>
+        <div class="grid">
+          <article class="card reveal"><h3>O que é seu, é seu</h3><p>As suas conversas são só suas. Quem acompanha você nunca vê o que você conta ao Anjo.</p></article>
+          <article class="card reveal" style="--d: .1s"><h3>Servidores no Brasil</h3><p>Os dados ficam em São Paulo, seguindo a LGPD, com acesso protegido e registrado.</p></article>
+          <article class="card reveal" style="--d: .2s"><h3>Simples de entrar</h3><p>Você entra com o seu CPF e um PIN de 4 números. Se esquecer, recupera na hora.</p></article>
         </div>
       </div>
     </section>
 
-    <section id="instalar" class="block alt">
+    <!-- INSTALAR -->
+    <section id="instalar" class="block soft">
       <div class="wrap">
-        <h2>Instale no seu celular</h2>
-        <p class="sub">O Anjo IA funciona como aplicativo direto do navegador. As versões para as lojas chegam em breve.</p>
-        <div class="grid grid-2">
-          <article class="card">
-            <h3>iPhone</h3>
-            <ol><li>Abra <b>app.anjoia.com.br</b> no Safari.</li><li>Toque em <b>Compartilhar</b>.</li><li>Escolha <b>Adicionar à Tela de Início</b>.</li></ol>
-          </article>
-          <article class="card">
-            <h3>Android</h3>
-            <ol><li>Abra <b>app.anjoia.com.br</b> no Chrome.</li><li>Toque no menu <b>⋮</b>.</li><li>Escolha <b>Instalar app</b>.</li></ol>
-          </article>
+        <h2 class="center reveal">Leve o Anjo no seu celular</h2>
+        <p class="sub center reveal">Funciona como aplicativo direto do navegador. As versões das lojas chegam em breve.</p>
+        <div class="grid two">
+          <article class="card reveal"><h3>iPhone</h3><ol><li>Abra <b>app.anjoia.com.br</b> no Safari.</li><li>Toque em <b>Compartilhar</b>.</li><li>Escolha <b>Adicionar à Tela de Início</b>.</li></ol></article>
+          <article class="card reveal" style="--d: .1s"><h3>Android</h3><ol><li>Abra <b>app.anjoia.com.br</b> no Chrome.</li><li>Toque no menu <b>⋮</b>.</li><li>Escolha <b>Instalar app</b>.</li></ol></article>
         </div>
-        <div class="center"><a class="btn" href="https://app.anjoia.com.br/entrar">Abrir o Anjo IA</a></div>
       </div>
     </section>
 
+    <!-- PERGUNTAS -->
     <section id="perguntas" class="block">
       <div class="wrap narrow">
-        <h2>Perguntas frequentes</h2>
-        <details><summary>O Anjo IA é uma pessoa?</summary><p>Não. É uma inteligência artificial criada para acolher, aconselhar com base na Bíblia e orar com você. Ele sempre diz que é uma IA.</p></details>
-        <details><summary>Ele substitui psicólogo, médico ou pastor?</summary><p>Não. O Anjo IA não é serviço médico, psicológico ou de emergência. Ele incentiva você a buscar acompanhamento profissional e a sua comunidade de fé.</p></details>
-        <details><summary>Preciso ser cristão para usar?</summary><p>Não. Qualquer pessoa maior de 18 anos que busca apoio, conselho e oração é bem-vinda.</p></details>
-        <details><summary>Quanto custa?</summary><p>Há um plano gratuito com limite de uso diário. A Rede de Cuidado, o botão SOS e o protocolo de crise são sempre gratuitos e nunca limitados.</p></details>
-        <details><summary>Quem lê as minhas conversas?</summary><p>Ninguém da Rede de Cuidado recebe o conteúdo das conversas. Casos marcados como risco podem ser revisados pela equipe para melhorar a segurança, e todo acesso é registrado.</p></details>
-        <details><summary>Minha igreja pode participar?</summary><p>Em breve teremos uma versão para igrejas parceiras e uma versão para profissionais.</p></details>
+        <h2 class="center reveal">Perguntas frequentes</h2>
+        <details class="reveal"><summary>O Anjo IA é uma pessoa?</summary><p>Não. É uma inteligência artificial criada para ser um amigo: escutar, aconselhar com base na Bíblia e orar com você. Ele sempre diz que é uma IA.</p></details>
+        <details class="reveal"><summary>Ele substitui psicólogo, médico ou pastor?</summary><p>Não. Não somos médicos, terapeutas nem psicólogos. O Anjo incentiva você a buscar quem cuida de você: a sua igreja, a sua família e os profissionais de saúde.</p></details>
+        <details class="reveal"><summary>Preciso ser cristão para usar?</summary><p>Não. Qualquer pessoa maior de 18 anos que busca apoio, conselho e oração é bem-vinda. O Anjo respeita a sua tradição: evangélica, católica ou geral.</p></details>
+        <details class="reveal"><summary>Quanto custa?</summary><p>Há um plano gratuito. O botão SOS, o Anjo da Guarda e o cuidado nos momentos de risco são sempre gratuitos e nunca têm limite.</p></details>
+        <details class="reveal"><summary>Quem é o meu Anjo da Guarda?</summary><p>Uma pessoa em quem você confia muito, que você escolhe no cadastro. Ela só é avisada se você pedir ajuda ou se o momento estiver muito difícil, e nunca vê as suas conversas.</p></details>
+        <details class="reveal"><summary>Como eu entro no app?</summary><p>Com o seu CPF e o PIN de 4 números que você cria no cadastro. Esqueceu o PIN? Coloque o CPF e o telefone cadastrado e um PIN novo aparece na hora.</p></details>
+      </div>
+    </section>
+
+    <!-- CHAMADA FINAL -->
+    <section class="final">
+      <div class="rays rays-soft" aria-hidden="true"></div>
+      <div class="wrap center final-in reveal">
+        <img src="anjo.svg" alt="" width="84" height="84" class="final-angel" />
+        <h2>Que a luz chegue até você hoje.</h2>
+        <p>O Anjo está aqui, a qualquer hora.</p>
+        <a class="btn btn-dark" href="https://app.anjoia.com.br/entrar?modo=cadastro">Começar agora</a>
       </div>
     </section>
   </main>
 
   <footer class="foot">
     <div class="wrap foot-in">
-      <div class="brand"><img src="anjo.svg" alt="" width="28" height="28" /><span>Anjo <b>IA</b></span></div>
-      <p>O Anjo IA não é serviço médico nem de emergência. Em perigo, ligue <a href="tel:188">188</a> (CVV), <a href="tel:192">192</a> (SAMU) ou <a href="tel:190">190</a>.</p>
-      <p><a href="https://app.anjoia.com.br/termos">Termos de uso e privacidade</a></p>
-      <p class="copy">© <span id="ano">2026</span> Anjo IA</p>
+      <div>
+        <div class="brand"><img src="anjo.svg" alt="" width="28" height="28" /><span>Anjo <b>IA</b></span></div>
+        <p class="foot-tag">Um amigo para conversar.</p>
+      </div>
+      <div class="foot-sos">
+        <p><strong>Precisa de ajuda agora?</strong></p>
+        <p><a href="tel:188">188</a> CVV · <a href="tel:192">192</a> SAMU · <a href="tel:190">190</a> Polícia</p>
+        <p class="tiny">O Anjo IA não é serviço médico nem de emergência.</p>
+      </div>
+      <div class="foot-links">
+        <a href="https://app.anjoia.com.br/entrar">Entrar no app</a>
+        <a href="https://app.anjoia.com.br/termos">Termos e privacidade</a>
+      </div>
+    </div>
+    <div class="wrap foot-bottom">
+      <p class="tiny">© <span id="ano">2026</span> Anjo IA</p>
+      <a class="admin-btn" href="https://app.anjoia.com.br/entrar?modo=equipe">Acesso administrativo</a>
     </div>
   </footer>
-  <script>document.getElementById("ano").textContent = new Date().getFullYear();</script>
+  <script src="script.js" defer></script>
 </body>
 </html>
