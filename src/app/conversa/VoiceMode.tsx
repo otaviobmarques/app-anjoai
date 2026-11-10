@@ -4,6 +4,7 @@ import { AngelArt } from "@/components/AngelArt";
 import { CrisisCard } from "@/components/CrisisCard";
 import { getRecognizer, SentenceSpeaker, unlockAudio, voiceModeSupported } from "@/lib/voice";
 import type { SendHooks } from "./Chat";
+import { FIXED_AUDIO } from "@/lib/fixed-audio";
 
 type State = "ouvindo" | "pensando" | "falando" | "parado";
 const LABEL: Record<State, string> = {
@@ -115,7 +116,7 @@ export function VoiceMode({
     }
     const hello = new SentenceSpeaker(() => listen());
     speaker.current = hello;
-    hello.push("Pode falar, estou ouvindo.");
+    hello.enqueueFile(FIXED_AUDIO.saudacao.file, FIXED_AUDIO.saudacao.text);
     hello.end();
     setState("falando");
     return () => { removeEventListener("keydown", onKey); alive.current = false; speaker.current?.stop(); try { rec.current?.stop(); } catch {} };

@@ -29,6 +29,17 @@ function cleanForSpeech(t: string) {
   return t.replace(/[*_#>`]/g, "").replace(/\s+/g, " ").trim();
 }
 
+async function fetchFile(url: string): Promise<AudioBuffer | null> {
+  if (!ctx) return null;
+  try {
+    const r = await fetch(url);
+    if (!r.ok) return null;
+    return await ctx.decodeAudioData(await r.arrayBuffer());
+  } catch {
+    return null;
+  }
+}
+
 async function fetchAudio(text: string): Promise<AudioBuffer | null> {
   if (naturalOff || !ctx) return null;
   try {
@@ -107,6 +118,14 @@ export class SentenceSpeaker {
     if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel();
   }
 
+  /** Toca um áudio gravado do app; se não carregar, fala o texto. */
+  enqueueFile(url: string, fallbackText: string) {
+    if (this.stopped) return;
+    this.chunks++;
+    this.queue.push({ text: cleanForSpeech(fallbackText), audio: fetchFile(url) });
+    void this.kick();
+  }
+
   private enqueue(text: string) {
     const t = cleanForSpeech(text);
     if (!t) return;
@@ -153,6 +172,17 @@ export function speak(text: string, onEnd?: () => void) {
   const sp = new SentenceSpeaker(() => onEnd?.());
   active = sp;
   sp.push(text);
+  sp.end();
+}
+
+/** Toca um áudio gravado (palavra do dia, orações, SOS). */
+export function playRecorded(url: string, fallbackText: string, onEnd?: () => void) {
+  if (typeof window === "undefined") return onEnd?.();
+  unlockAudio();
+  active?.stop();
+  const sp = new SentenceSpeaker(() => onEnd?.());
+  active = sp;
+  sp.enqueueFile(url, fallbackText);
   sp.end();
 }
 

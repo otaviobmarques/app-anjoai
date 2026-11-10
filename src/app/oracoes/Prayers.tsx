@@ -3,12 +3,16 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { SpeakButton } from "@/components/SpeakButton";
 import { CrisisCard } from "@/components/CrisisCard";
+import { prayerAudio, prayersFor, type Prayer as Ready, type Tradition } from "@/lib/prayers";
 
 type Prayer = { id: string; topic: string; content: string; saved: boolean; created_at: string };
 type Req = { id: string; request: string; status: string; answer_note: string | null; created_at: string };
 
-export function Prayers({ saved: s0, requests: r0 }: { saved: Prayer[]; requests: Req[] }) {
-  const [tab, setTab] = useState<"orar" | "salvas" | "pedidos">("orar");
+export function Prayers({ saved: s0, requests: r0, tradition }: { saved: Prayer[]; requests: Req[]; tradition: Tradition }) {
+  const [tab, setTab] = useState<"oracoes" | "orar" | "salvas" | "pedidos">("oracoes");
+  const [open, setOpen] = useState<Ready | null>(null);
+  const ready = prayersFor(tradition);
+  const groups = [...new Set(ready.map((p) => p.group))];
   const [topic, setTopic] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -57,13 +61,53 @@ export function Prayers({ saved: s0, requests: r0 }: { saved: Prayer[]; requests
   return (
     <div>
       <h1 className="text-lg font-extrabold">Orações</h1>
-      <div className="mt-3 flex gap-2" role="tablist">
-        {(["orar", "salvas", "pedidos"] as const).map((t) => (
-          <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)} className={`rounded-full px-4 py-2 text-sm ${tab === t ? "bg-gold font-bold text-on-gold" : "border border-line"}`}>
-            {t === "orar" ? "Pedir oração" : t === "salvas" ? "Salvas" : "Meus pedidos"}
+      <div className="mt-3 flex gap-2 overflow-x-auto pb-1" role="tablist">
+        {(["oracoes", "orar", "salvas", "pedidos"] as const).map((t) => (
+          <button key={t} role="tab" aria-selected={tab === t} onClick={() => { setTab(t); setOpen(null); }} className={`shrink-0 rounded-full px-4 py-2 text-sm ${tab === t ? "bg-gold font-bold text-on-gold" : "border border-line"}`}>
+            {t === "oracoes" ? "Orações" : t === "orar" ? "Pedir" : t === "salvas" ? "Salvas" : "Meus pedidos"}
           </button>
         ))}
       </div>
+
+      {tab === "oracoes" && !open && (
+        <section className="mt-5 space-y-6">
+          <button onClick={() => setTab("orar")} className="flex w-full items-center gap-4 rounded-2xl bg-gold p-5 text-left text-on-gold">
+            <span className="text-3xl" aria-hidden>🙏</span>
+            <span>
+              <span className="block text-lg font-extrabold">Pedir uma oração</span>
+              <span className="block text-sm">Conte pelo que você quer orar e o Anjo faz uma oração só para você.</span>
+            </span>
+          </button>
+          {groups.map((g) => (
+            <div key={g}>
+              <h2 className="text-sm font-bold text-gold-text">{g}</h2>
+              <ul className="mt-2 grid grid-cols-2 gap-2">
+                {ready.filter((p) => p.group === g).map((p) => (
+                  <li key={p.id}>
+                    <button onClick={() => setOpen(p)} className="card flex h-full w-full flex-col items-start p-4 text-left">
+                      <span className="font-bold">{p.title}</span>
+                      {p.note && <span className="mt-1 text-xs text-muted">{p.note}</span>}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {tab === "oracoes" && open && (
+        <article className="mt-5 space-y-4">
+          <button className="text-sm text-muted underline" onClick={() => setOpen(null)}>‹ Todas as orações</button>
+          <div className="card p-5">
+            <h2 className="text-xl font-extrabold">{open.title}</h2>
+            {open.note && <p className="text-sm text-muted">{open.note}</p>}
+            <div className="mt-4"><SpeakButton text={open.text} src={prayerAudio(open.id)} label="Ouvir e orar junto" big /></div>
+            <p className="mt-4 whitespace-pre-wrap text-lg leading-relaxed">{open.text}</p>
+          </div>
+          <button className="btn-ghost w-full" onClick={() => { setOpen(null); setTab("orar"); }}>Pedir uma oração para algo específico</button>
+        </article>
+      )}
 
       {tab === "orar" && (
         <section className="mt-5 space-y-4">

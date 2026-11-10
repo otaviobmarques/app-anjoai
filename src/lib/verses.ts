@@ -41,5 +41,6 @@ export function verseOfDay(date = new Date()) {
   const br = new Date(date.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
   const start = new Date(br.getFullYear(), 0, 0);
   const day = Math.floor((br.getTime() - start.getTime()) / 864e5);
-  return VERSES[day % VERSES.length];
+  const index = day % VERSES.length;
+  return { ...VERSES[index], index };
 }

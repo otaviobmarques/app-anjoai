@@ -4,7 +4,7 @@ import { AppShell } from "@/components/AppShell";
 import { Prayers } from "./Prayers";
 
 export default async function Oracoes() {
-  const { supabase, user } = await getSession();
+  const { supabase, user, profile } = await getSession();
   if (!user) redirect("/entrar");
   const [{ data: saved }, { data: requests }] = await Promise.all([
     supabase.from("prayers").select("id,topic,content,saved,created_at").eq("saved", true).order("created_at", { ascending: false }).limit(50),
@@ -12,7 +12,7 @@ export default async function Oracoes() {
   ]);
   return (
     <AppShell active="/oracoes">
-      <Prayers saved={saved ?? []} requests={requests ?? []} />
+      <Prayers saved={saved ?? []} requests={requests ?? []} tradition={profile?.tradition ?? "geral"} />
     </AppShell>
   );
 }

@@ -18,8 +18,8 @@ export default function Termos() {
       <p>Cadastro (nome, e-mail), preferências, conversas, orações, pedidos de oração, contatos de confiança, eventos de risco e alertas. Conversas sobre fé e saúde emocional são dados sensíveis (LGPD, art. 11) e são tratadas com base no seu consentimento e, nos casos de risco à vida, para a proteção da vida (art. 11, II, “e”).</p>
       <h2 className="text-lg font-bold">5. Com quem compartilhamos</h2>
       <p>Com fornecedores necessários para o app funcionar: hospedagem e banco de dados (Supabase, servidores em São Paulo; Vercel), inteligência artificial (Anthropic, que processa as mensagens para gerar as respostas) e envio de e-mails (Resend). Não vendemos dados e não usamos suas conversas para publicidade.</p>
-      <h2 className="text-lg font-bold">6. Revisão humana</h2>
-      <p>Casos marcados como risco podem ser revisados por uma pessoa da equipe para melhorar a segurança. Todo acesso da equipe é registrado.</p>
+      <h2 className="text-lg font-bold">6. Acesso da equipe</h2>
+      <p>Pessoas autorizadas da equipe do Anjo IA podem acessar o seu histórico (conversas, orações, eventos de risco e Rede de Cuidado) para revisar casos de risco, atender pedidos seus, dar suporte técnico e acompanhar a fase de testes. Cada acesso exige um motivo e fica registrado com o nome de quem acessou, a data e o motivo. Você pode ver esse registro ao baixar os seus dados em Ajustes.</p>
       <h2 className="text-lg font-bold">7. Seus direitos</h2>
       <p>Você pode baixar todos os seus dados e excluir sua conta a qualquer momento em Ajustes. Também pode revogar consentimentos e falar com o encarregado de dados (DPO) pelo canal que será informado aqui.</p>
       <Link href="/" className="btn-ghost inline-flex">Voltar</Link>

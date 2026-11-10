@@ -5,7 +5,8 @@ import type { SupabaseClient } from "@supabase/supabase-js";
  * ELEVENLABS_API_KEY na Vercel liga a voz. Sem ela, o app usa a voz do navegador.
  * A voz escolhida fica em app_settings (key "tts_voice"), definida no painel de administrador.
  */
-export const DEFAULT_VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "EXAVITQu4vr4xnSDxMaL";
+// Voz do Anjo: "Will - Deep, Smooth and Affectionate" (biblioteca ElevenLabs, adicionada à conta como "Anjo IA - Will")
+export const DEFAULT_VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "CstacWqMhJQlnfLPxRG4";
 export const TTS_MODEL = process.env.ELEVENLABS_MODEL || "eleven_flash_v2_5";
 
 export function ttsAvailable() {

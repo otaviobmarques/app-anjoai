@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { EMERGENCY } from "@/lib/emergency";
+import { FIXED_AUDIO } from "@/lib/fixed-audio";
+import { SpeakButton } from "@/components/SpeakButton";
 
 export function SosClient() {
   const [contacts, setContacts] = useState<{ name: string; phone: string }[]>([]);
@@ -68,7 +70,10 @@ export function SosClient() {
       {msg && <p className="mt-2 text-sm" role="status">{msg}</p>}
 
       <div className="mt-8 card p-4 text-sm leading-relaxed">
-        <p className="font-bold">Enquanto espera</p>
+        <div className="flex items-center justify-between gap-2">
+          <p className="font-bold">Enquanto espera</p>
+          <SpeakButton text={FIXED_AUDIO["sos-respiracao"].text} src={FIXED_AUDIO["sos-respiracao"].file} label="Respirar comigo" />
+        </div>
         <p className="mt-1 text-muted">Respire devagar: inspire contando até 4, segure até 4, solte contando até 6. Se houver algo perto que possa te ferir, afaste-se dele. Chame alguém para ficar com você.</p>
       </div>
 

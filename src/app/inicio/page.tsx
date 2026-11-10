@@ -6,6 +6,7 @@ import { AngelArt } from "@/components/AngelArt";
 import { verseOfDay } from "@/lib/verses";
 import { SpeakButton } from "@/components/SpeakButton";
 import { InstallApp } from "@/components/InstallApp";
+import { palavraAudio } from "@/lib/fixed-audio";
 
 function saudacao() {
   const h = Number(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo", hour: "numeric", hour12: false }));
@@ -53,7 +54,7 @@ export default async function Inicio() {
       <section className="card mt-6 p-5" aria-labelledby="pd">
         <div className="flex items-center justify-between">
           <h2 id="pd" className="text-sm font-bold text-gold-text">Palavra do dia</h2>
-          <SpeakButton text={`${v.text} ${v.ref}. ${v.reflection}`} />
+          <SpeakButton text={`${v.text} ${v.ref}. ${v.reflection}`} src={palavraAudio(v.index)} />
         </div>
         <blockquote className="mt-3 text-lg font-medium leading-snug">“{v.text}”</blockquote>
         <p className="mt-1 text-sm text-muted">{v.ref} · paráfrase</p>

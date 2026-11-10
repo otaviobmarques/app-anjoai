@@ -41,7 +41,10 @@ export default async function Admin() {
     <div className="mx-auto max-w-3xl space-y-6 px-4 py-8">
       <header className="flex items-center justify-between">
         <h1 className="text-xl font-extrabold">Painel de acompanhamento</h1>
-        <Link href="/inicio" className="text-sm text-muted underline">Abrir o app</Link>
+        <span className="flex gap-4 text-sm">
+          <Link href="/admin/pessoas" className="font-bold text-gold-text underline">Pessoas e históricos</Link>
+          <Link href="/inicio" className="text-muted underline">Abrir o app</Link>
+        </span>
       </header>
 
       <section className="card space-y-3 p-4">
@@ -77,7 +80,7 @@ export default async function Admin() {
 
       <section>
         <h2 className="font-bold">Fila de revisão de risco</h2>
-        <p className="text-sm text-muted">Sem conteúdo das conversas aqui. Abrir uma conversa exige registro de acesso (próxima fase).</p>
+        <p className="text-sm text-muted">Sem conteúdo das conversas aqui. Para ver o histórico, abra a pessoa: o acesso fica registrado com o motivo.</p>
         <div className="mt-3 space-y-2">
           {(events.data ?? []).length === 0 && <p className="text-muted">Nenhum evento.</p>}
           {(events.data ?? []).map((e) => (
@@ -86,7 +89,10 @@ export default async function Admin() {
                 <p><strong>Nível {e.level}</strong> ({LEVEL[e.level]}) · {e.source} · {new Date(e.created_at).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}</p>
                 <p className="text-muted">{e.reason} · pessoa {String(e.user_id).slice(0, 8)}</p>
               </div>
-              {e.review_status === "pendente" ? <ReviewButtons id={e.id} /> : <span className="text-xs text-muted">{e.review_status}</span>}
+              <span className="flex items-center gap-2">
+                <Link href={`/admin/pessoas/${e.user_id}`} className="rounded-full border border-line px-3 py-1.5 text-xs">Ver pessoa</Link>
+                {e.review_status === "pendente" ? <ReviewButtons id={e.id} /> : <span className="text-xs text-muted">{e.review_status}</span>}
+              </span>
             </div>
           ))}
         </div>
