@@ -21,7 +21,7 @@ export default async function Conversa({ searchParams }: { searchParams: Promise
   }
   return (
     <AppShell active="/conversa">
-      <Chat key={conversationId ?? "nova"} conversationId={conversationId} initial={initial} name={profile.name} voiceReplies={profile.voice_replies} />
+      <Chat key={conversationId ?? "nova"} conversationId={conversationId} initial={initial} name={profile.name} voiceReplies={profile.voice_replies} theme={profile.angel_theme} />
     </AppShell>
   );
 }
