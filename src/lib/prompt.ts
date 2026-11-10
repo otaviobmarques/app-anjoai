@@ -59,6 +59,7 @@ export function contextBlock(opts: {
   bibleVersion?: string;
   memory?: string;
   previous?: string;
+  moodToday?: string;
   nowBR: string;
 }) {
   const t = { evangelica: "evangélica", catolica: "católica", geral: "geral (cristã sem denominação)" } as Record<string, string>;
@@ -66,7 +67,8 @@ export function contextBlock(opts: {
 Nome: ${opts.name || "não informado"}
 Tradição: ${t[opts.tradition ?? "geral"] ?? "geral"}
 Versão da Bíblia preferida: ${opts.bibleVersion || "NVI"}
-Agora (horário de Brasília): ${opts.nowBR}
+Agora (horário de Brasília): ${opts.nowBR}${opts.moodToday ? `
+Como a pessoa disse que está hoje (check-in da tela inicial): ${opts.moodToday}. Acolha isso com naturalidade no começo, sem repetir como um formulário.` : ""}
 
 ## Memória da jornada (o que você já sabe; retome com naturalidade, sem recitar)
 ${opts.memory?.trim() || "Ainda não há memória. É o começo da caminhada."}

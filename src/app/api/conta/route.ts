@@ -6,7 +6,7 @@ export const runtime = "nodejs";
 export async function GET() {
   const { supabase, user, profile } = await getSession();
   if (!user) return new Response("não autenticado", { status: 401 });
-  const tables = ["conversations", "messages", "journey_memory", "prayers", "prayer_requests", "trusted_contacts", "risk_events", "alerts", "consents", "admin_access_log"];
+  const tables = ["conversations", "messages", "journey_memory", "prayers", "prayer_requests", "trusted_contacts", "risk_events", "alerts", "consents", "admin_access_log", "mood_checkins"];
   const out: Record<string, unknown> = { exportado_em: new Date().toISOString(), email: user.email, perfil: profile };
   for (const t of tables) {
     const { data } = await supabase.from(t).select("*");

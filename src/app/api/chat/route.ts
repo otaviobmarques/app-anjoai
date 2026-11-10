@@ -4,7 +4,8 @@ import { ai, aiAvailable, CHAT_MODEL, FAST_MODEL, nowBR } from "@/lib/ai";
 import { MASTER_PROMPT, PROMPT_VERSION, contextBlock } from "@/lib/prompt";
 import { classifyRisk, keywordRisk } from "@/lib/risk";
 import { alertCareNetwork } from "@/lib/alerts";
-import { overDailyLimit } from "@/lib/limits";
+import { overDailyLimit, startOfTodayBR } from "@/lib/limits";
+import { moodPhrase } from "@/lib/moods";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
@@ -89,10 +90,12 @@ export async function POST(req: Request) {
       }
 
       const client = ai();
-      const [{ data: history }, { data: memory }] = await Promise.all([
+      const [{ data: history }, { data: memory }, { data: moodRow }] = await Promise.all([
         supabase.from("messages").select("role,content").eq("conversation_id", conversationId).order("created_at", { ascending: false }).limit(24),
         supabase.from("journey_memory").select("summary").maybeSingle(),
+        supabase.from("mood_checkins").select("moods").gte("created_at", startOfTodayBR()).order("created_at", { ascending: false }).limit(1).maybeSingle(),
       ]);
+      const moodToday = moodRow?.moods ? moodPhrase(moodRow.moods as string[]) : "";
       const turns = (history ?? []).reverse() as { role: "user" | "assistant"; content: string }[];
 
       // Conversa nova: traz trechos das conversas anteriores para o Anjo dar continuidade
@@ -131,7 +134,7 @@ export async function POST(req: Request) {
           output_config: { effort: "low" },
           system: [
             { type: "text", text: MASTER_PROMPT, cache_control: { type: "ephemeral" } },
-            { type: "text", text: contextBlock({ name: profile.name, tradition: profile.tradition, bibleVersion: profile.bible_version, memory: (memory as { summary?: string } | null)?.summary, previous, nowBR: nowBR() }) },
+            { type: "text", text: contextBlock({ name: profile.name, tradition: profile.tradition, bibleVersion: profile.bible_version, memory: (memory as { summary?: string } | null)?.summary, previous, moodToday, nowBR: nowBR() }) },
           ],
           messages,
         });

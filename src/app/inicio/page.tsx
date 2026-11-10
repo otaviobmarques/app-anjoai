@@ -6,6 +6,8 @@ import { verseOfDay } from "@/lib/verses";
 import { SpeakButton } from "@/components/SpeakButton";
 import { InstallApp } from "@/components/InstallApp";
 import { palavraAudio } from "@/lib/fixed-audio";
+import { MoodCheckin } from "@/components/MoodCheckin";
+import { startOfTodayBR } from "@/lib/limits";
 
 function saudacao() {
   const h = Number(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo", hour: "numeric", hour12: false }));
@@ -18,7 +20,11 @@ function saudacao() {
 export default async function Inicio() {
   const { supabase, profile } = await requireReady("/inicio");
   const v = verseOfDay();
-  const [{ data: people }, { data: careAlerts }] = await Promise.all([supabase.rpc("my_care_people"), supabase.rpc("my_care_alerts")]);
+  const [{ data: people }, { data: careAlerts }, { count: moodToday }] = await Promise.all([
+    supabase.rpc("my_care_people"),
+    supabase.rpc("my_care_alerts"),
+    supabase.from("mood_checkins").select("id", { count: "exact", head: true }).gte("created_at", startOfTodayBR()),
+  ]);
   const openAlerts = ((careAlerts ?? []) as { acked_at: string | null }[]).filter((a) => !a.acked_at).length;
   const caring = ((people ?? []) as unknown[]).length;
   const first = profile.name?.split(" ")[0];
@@ -35,6 +41,8 @@ export default async function Inicio() {
         <h1 className="mt-6 text-2xl font-extrabold">{saudacao()}{first ? `, ${first}` : ""}.</h1>
         <p className="mt-1 text-muted">Estou aqui com você.</p>
       </section>
+
+      {!moodToday && <div className="mt-6"><MoodCheckin firstName={first} /></div>}
 
       <div className="mt-6"><InstallApp /></div>
 

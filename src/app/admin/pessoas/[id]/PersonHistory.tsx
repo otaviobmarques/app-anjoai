@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { formatCPF } from "@/lib/cpf";
+import { moodById } from "@/lib/moods";
 
 type Msg = { role: "user" | "assistant"; content: string; at: string; risk: number | null; audio: boolean };
 type H = {
@@ -31,6 +32,7 @@ export function PersonHistory({ userId }: { userId: string }) {
 
   const [cpf, setCpf] = useState<string | null>(null);
   const [link, setLink] = useState("");
+  const [moods, setMoods] = useState<{ moods: string[]; created_at: string }[]>([]);
   async function makeLink() {
     const r = await fetch("/api/admin/link", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ userId }) });
     const j = await r.json().catch(() => ({}));
@@ -54,6 +56,8 @@ export function PersonHistory({ userId }: { userId: string }) {
     setH(data as H);
     const { data: c } = await createClient().rpc("admin_person_cpf", { p_user: userId });
     setCpf((c as string) || null);
+    const { data: md } = await createClient().rpc("admin_person_moods", { p_user: userId });
+    setMoods((md as { moods: string[]; created_at: string }[]) ?? []);
     const first = (data as H).conversations[0];
     if (first) setOpenConv(first.id);
   }
@@ -115,6 +119,20 @@ export function PersonHistory({ userId }: { userId: string }) {
           {newPw && newPw !== "erro" && <span className="text-sm">PIN provisório: <strong className="font-mono text-lg">{newPw}</strong> (a pessoa cria o dela no próximo acesso)</span>}
           {newPw === "erro" && <span className="text-sm text-danger">Não consegui gerar.</span>}
         </div>
+      </section>
+
+      <section className="card p-4">
+        <h2 className="font-bold">Como esteve nos últimos dias</h2>
+        {moods.length === 0 ? <p className="mt-2 text-sm text-muted">Ainda não respondeu o “Como você está hoje?”.</p> : (
+          <ul className="mt-2 flex flex-wrap gap-2 text-sm">
+            {moods.map((m, i) => (
+              <li key={i} className={`rounded-xl border px-3 py-2 ${m.moods.includes("pensamentos_ruins") ? "border-danger" : "border-line"}`}>
+                <span className="text-xs text-muted">{fmt(m.created_at)}</span><br />
+                {m.moods.map((id) => `${moodById(id)?.emoji ?? ""} ${moodById(id)?.label ?? id}`).join(" · ")}
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       {h.risk_events.length > 0 && (

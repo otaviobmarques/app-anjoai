@@ -5,13 +5,14 @@ import { AngelArt } from "@/components/AngelArt";
 import { AngelSymbol } from "@/components/Logo";
 import { getRecognizer, speak, stopSpeaking, unlockAudio } from "@/lib/voice";
 import { VoiceMode } from "./VoiceMode";
+import { MOODS, moodPhrase } from "@/lib/moods";
 
 export type Msg = { role: "user" | "assistant"; content: string; crisis?: boolean; alerted?: { sent: number; total: number } | null };
 type Theme = "marca" | "asas" | "aureola";
 
 export type SendHooks = { onDelta?: (t: string) => void; onRisk?: () => void; onDone?: (ok: boolean, full: string) => void };
 
-export function Chat({ conversationId, initial, name, voiceReplies, theme, startVoice = false }: { conversationId: string | null; initial: Msg[]; name: string | null; voiceReplies: boolean; theme: Theme; startVoice?: boolean }) {
+export function Chat({ conversationId, initial, name, voiceReplies, theme, startVoice = false, moods = [] }: { conversationId: string | null; initial: Msg[]; name: string | null; voiceReplies: boolean; theme: Theme; startVoice?: boolean; moods?: string[] }) {
   const [msgs, setMsgs] = useState<Msg[]>(initial);
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
@@ -122,8 +123,20 @@ export function Chat({ conversationId, initial, name, voiceReplies, theme, start
           <div className="pt-4 text-center">
             <AngelArt theme={theme} size={170} />
             <div className="card mt-8 p-5 text-left leading-relaxed">
-              <p>Oi{first ? `, ${first}` : ""}. Que bom que você veio.</p>
-              <p className="mt-2 text-muted">Pode me contar o que está no seu coração, por texto ou por voz. Estou aqui para ouvir, aconselhar e orar com você.</p>
+              {moods.length ? (() => {
+                const heavy = moods.some((m) => MOODS.find((x) => x.id === m)?.heavy);
+                return (
+                  <>
+                    <p>Oi{first ? `, ${first}` : ""}. Vi que hoje você está {moodPhrase(moods)}.</p>
+                    <p className="mt-2 text-muted">{heavy ? "Quer me contar o que está acontecendo? Estou aqui, sem pressa, para ouvir e orar com você." : "Que bom! Quer conversar, agradecer ou orar junto?"}</p>
+                  </>
+                );
+              })() : (
+                <>
+                  <p>Oi{first ? `, ${first}` : ""}. Que bom que você veio.</p>
+                  <p className="mt-2 text-muted">Pode me contar o que está no seu coração, por texto ou por voz. Estou aqui para ouvir, aconselhar e orar com você.</p>
+                </>
+              )}
               <button className="btn-gold mt-4 w-full" onClick={() => { unlockAudio(); setVoiceMode(true); }}>Conversar por voz</button>
             </div>
           </div>
