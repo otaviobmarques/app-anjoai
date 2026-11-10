@@ -26,10 +26,17 @@ export default function Entrar() {
         return setError(traduz(error.message));
       }
     }
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    // Contas da equipe entram com nome de usuário (ex.: "Admin")
+    const login = email.includes("@") ? email.trim() : `${email.trim().toLowerCase()}@anjo-ia.app`;
+    const { data, error } = await supabase.auth.signInWithPassword({ email: login, password });
     setBusy(false);
     if (error) return setError(traduz(error.message));
-    router.replace(mode === "cadastro" ? "/boas-vindas" : "/inicio");
+    let dest = mode === "cadastro" ? "/boas-vindas" : "/inicio";
+    if (mode === "entrar" && data.user) {
+      const { data: prof } = await supabase.from("profiles").select("is_admin").eq("id", data.user.id).single();
+      if (prof?.is_admin) dest = "/admin";
+    }
+    router.replace(dest);
     router.refresh();
   }
 
@@ -49,8 +56,8 @@ export default function Entrar() {
           </label>
         )}
         <label className="block">
-          <span className="mb-1 block text-sm text-muted">E-mail</span>
-          <input className="field" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
+          <span className="mb-1 block text-sm text-muted">{mode === "entrar" ? "E-mail ou usuário" : "E-mail"}</span>
+          <input className="field" type={mode === "entrar" ? "text" : "email"} inputMode="email" autoCapitalize="none" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete={mode === "entrar" ? "username" : "email"} />
         </label>
         <label className="block">
           <span className="mb-1 block text-sm text-muted">Senha</span>

@@ -1,6 +1,15 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/supabase/server";
+import Link from "next/link";
 import { ReviewButtons } from "./ReviewButtons";
+import { AiTestButton } from "./AiStatus";
+import { CHAT_MODEL, FAST_MODEL } from "@/lib/ai";
+import { PROMPT_VERSION } from "@/lib/prompt";
+
+function mask(v?: string) {
+  if (!v) return null;
+  return `${v.slice(0, 10)}…${v.slice(-4)}`;
+}
 
 export const dynamic = "force-dynamic";
 
@@ -28,7 +37,25 @@ export default async function Admin() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-6 px-4 py-8">
-      <h1 className="text-xl font-extrabold">Painel de acompanhamento</h1>
+      <header className="flex items-center justify-between">
+        <h1 className="text-xl font-extrabold">Painel de acompanhamento</h1>
+        <Link href="/inicio" className="text-sm text-muted underline">Abrir o app</Link>
+      </header>
+
+      <section className="card space-y-3 p-4">
+        <h2 className="font-bold">Inteligência artificial (Anthropic)</h2>
+        <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+          <dt className="text-muted">Chave</dt>
+          <dd>{mask(process.env.ANTHROPIC_API_KEY) ? <code>{mask(process.env.ANTHROPIC_API_KEY)}</code> : <span className="text-danger">não configurada</span>}</dd>
+          <dt className="text-muted">Conversa e orações</dt><dd><code>{CHAT_MODEL}</code></dd>
+          <dt className="text-muted">Classificador e memória</dt><dd><code>{FAST_MODEL}</code></dd>
+          <dt className="text-muted">Prompt-Mestre</dt><dd><code>{PROMPT_VERSION}</code></dd>
+          <dt className="text-muted">E-mail de alertas</dt>
+          <dd>{process.env.RESEND_API_KEY && process.env.ALERT_FROM ? process.env.ALERT_FROM : <span className="text-danger">não configurado (alertas ficam pendentes)</span>}</dd>
+        </dl>
+        <p className="text-xs text-muted">A chave fica guardada só na Vercel (variável protegida). Por segurança, aqui aparecem só o começo e o fim. Para trocar: Vercel → anjo-ia → Settings → Environment Variables.</p>
+        <AiTestButton />
+      </section>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {stat("Pessoas", users.count ?? 0)}
         {stat("Ativas na semana", activeWeek)}
