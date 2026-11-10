@@ -8,7 +8,7 @@ export type Tradition = "evangelica" | "catolica" | "geral";
 export type Prayer = {
   id: string;
   title: string;
-  group: "Orações da fé" | "Salmos" | "Para o dia a dia";
+  group: "Orações da fé" | "Pedidos especiais" | "Salmos" | "Para o dia a dia";
   note?: string;
   for: Tradition[];
   text: string;
@@ -68,6 +68,35 @@ export const PRAYERS: Prayer[] = [
     note: "Atribuída a São Francisco de Assis",
     for: TODAS,
     text: "Senhor, fazei-me instrumento de vossa paz. Onde houver ódio, que eu leve o amor. Onde houver ofensa, que eu leve o perdão. Onde houver discórdia, que eu leve a união. Onde houver dúvida, que eu leve a fé. Onde houver erro, que eu leve a verdade. Onde houver desespero, que eu leve a esperança. Onde houver tristeza, que eu leve a alegria. Onde houver trevas, que eu leve a luz. Ó Mestre, fazei que eu procure mais consolar que ser consolado, compreender que ser compreendido, amar que ser amado. Pois é dando que se recebe, é perdoando que se é perdoado, e é morrendo que se vive para a vida eterna. Amém.",
+  },
+  {
+    id: "saude",
+    title: "Oração pela saúde",
+    group: "Pedidos especiais",
+    for: TODAS,
+    text: "Senhor, tu conheces o meu corpo e cada parte de mim. Eu te entrego a minha saúde e a de quem eu amo. Onde houver dor, traz alívio. Onde houver doença, traz cura. Onde houver medo do resultado de um exame, traz a tua paz. Dá força para seguir o tratamento e sabedoria aos médicos, enfermeiros e a todos que cuidam de mim. Renova as minhas forças a cada manhã e me ajuda a cuidar bem do corpo que tu me deste. Eu confio em ti, que és o médico dos médicos. Em nome de Jesus, amém.",
+  },
+  {
+    id: "protecao",
+    title: "Oração de proteção",
+    group: "Pedidos especiais",
+    for: TODAS,
+    text: "Senhor, tu és o meu refúgio e a minha fortaleza. Cobre com a tua proteção a minha vida, a minha casa e a minha família. Guarda a nossa saída e a nossa chegada, no caminho do trabalho, da escola e de volta para casa. Livra-nos de todo mal, de todo perigo e de todo acidente. Afasta de nós o que quer nos ferir, por fora e por dentro. Que os teus anjos acampem ao nosso redor, e que a nossa casa seja lugar de paz. Debaixo das tuas asas eu descanso. Em nome de Jesus, amém.",
+  },
+  {
+    id: "prosperidade",
+    title: "Oração de prosperidade",
+    group: "Pedidos especiais",
+    for: TODAS,
+    text: "Senhor, obrigado por tudo o que tu já me deste até aqui. Eu te entrego o meu trabalho, as minhas contas e os meus planos. Abençoa o trabalho das minhas mãos e abre portas de oportunidade. Dá-me sabedoria para usar bem o que eu tenho, disciplina para não gastar além do que posso e coragem para recomeçar quando for preciso. Que nunca falte o pão na minha mesa nem na de quem precisa de mim. Livra o meu coração da ansiedade e da inveja, e faz de mim uma pessoa generosa, que sabe repartir. Que a minha maior riqueza seja estar perto de ti. Em nome de Jesus, amém.",
+  },
+  {
+    id: "coisas-importantes",
+    title: "Oração por algo importante",
+    group: "Pedidos especiais",
+    note: "Uma decisão, uma prova, uma entrevista, uma causa",
+    for: TODAS,
+    text: "Senhor, hoje existe algo muito importante no meu coração, e tu sabes exatamente o que é. Eu coloco essa causa nas tuas mãos. Se for uma decisão, me dá clareza para escolher o que é certo. Se for uma prova, uma entrevista ou uma conversa difícil, me dá calma, memória e as palavras certas. Se a resposta depender de outras pessoas, toca o coração delas. Que seja feita a tua vontade, e que eu tenha paz com o resultado, sabendo que tu cuidas de mim em cada detalhe. Eu confio em ti, antes, durante e depois. Em nome de Jesus, amém.",
   },
   {
     id: "salmo-23",
