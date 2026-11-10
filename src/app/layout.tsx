@@ -1,10 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat } from "next/font/google";
+import "@fontsource-variable/montserrat";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { SwRegister } from "@/components/SwRegister";
-
-const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", weight: ["400", "500", "700", "800"] });
 
 export const metadata: Metadata = {
   title: "Anjo IA",
@@ -26,7 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const mode = c.get("cm")?.value ?? "auto";
   const fs = c.get("fs")?.value ?? "normal";
   return (
-    <html lang="pt-BR" data-mode={mode} data-fs={fs} className={montserrat.variable}>
+    <html lang="pt-BR" data-mode={mode} data-fs={fs}>
       <body className="min-h-dvh antialiased">
         {children}
         <SwRegister />

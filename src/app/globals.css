@@ -46,7 +46,7 @@
   --color-on-gold: var(--on-gold);
   --color-danger: var(--danger);
   --color-danger-bg: var(--danger-bg);
-  --font-sans: var(--font-montserrat), system-ui, sans-serif;
+  --font-sans: "Montserrat Variable", system-ui, sans-serif;
 }
 
 html, body { background: var(--bg); color: var(--text); }
