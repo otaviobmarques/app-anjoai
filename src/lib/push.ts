@@ -6,7 +6,7 @@ export function pushAvailable() {
 }
 function setup() {
   if (configured) return;
-  webpush.setVapidDetails(process.env.NEXT_PUBLIC_APP_URL || "https://anjo-ia.vercel.app", process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!, process.env.VAPID_PRIVATE_KEY!);
+  webpush.setVapidDetails(process.env.NEXT_PUBLIC_APP_URL || "https://app.anjoia.com.br", process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!, process.env.VAPID_PRIVATE_KEY!);
   configured = true;
 }
 
