@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SosButton } from "./SosButton";
+import { SosCache } from "./SosCache";
 
 const NAV = [
   { href: "/inicio", label: "Início", icon: "M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
@@ -14,6 +15,7 @@ export function AppShell({ children, active }: { children: React.ReactNode; acti
     <div className="mx-auto flex min-h-dvh max-w-xl flex-col">
       <main className="flex-1 px-4 pb-28 pt-[max(1rem,env(safe-area-inset-top))]">{children}</main>
       <SosButton />
+      <SosCache />
       <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-bg/95 backdrop-blur pb-[env(safe-area-inset-bottom)]">
         <ul className="mx-auto flex max-w-xl justify-around">
           {NAV.map((n) => (

@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { getSession } from "@/lib/supabase/server";
+import { requireReady } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
 import { AngelArt } from "@/components/AngelArt";
 import { verseOfDay } from "@/lib/verses";
@@ -17,9 +16,7 @@ function saudacao() {
 }
 
 export default async function Inicio() {
-  const { supabase, user, profile } = await getSession();
-  if (!user) redirect("/entrar");
-  if (!profile?.terms_version || !profile.adult_confirmed) redirect("/boas-vindas");
+  const { supabase, profile } = await requireReady("/inicio");
   const v = verseOfDay();
   const [{ data: people }, { data: careAlerts }] = await Promise.all([supabase.rpc("my_care_people"), supabase.rpc("my_care_alerts")]);
   const openAlerts = ((careAlerts ?? []) as { acked_at: string | null }[]).filter((a) => !a.acked_at).length;

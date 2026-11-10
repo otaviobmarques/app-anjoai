@@ -19,7 +19,10 @@ export default async function Pessoas({ searchParams }: { searchParams: Promise<
     <div className="mx-auto max-w-3xl space-y-5 px-4 py-8">
       <header className="flex items-center justify-between">
         <h1 className="text-xl font-extrabold">Pessoas</h1>
-        <Link href="/admin" className="text-sm text-muted underline">‹ Painel</Link>
+        <span className="flex items-center gap-3">
+          <Link href="/admin/pessoas/nova" className="btn-gold text-sm">+ Cadastrar pessoa</Link>
+          <Link href="/admin" className="text-sm text-muted underline">‹ Painel</Link>
+        </span>
       </header>
       <form className="flex gap-2">
         <input name="q" defaultValue={q ?? ""} className="field" placeholder="Buscar por nome ou e-mail" aria-label="Buscar" />

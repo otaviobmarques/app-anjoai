@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { EMERGENCY } from "@/lib/emergency";
 import { FIXED_AUDIO } from "@/lib/fixed-audio";
 import { SpeakButton } from "@/components/SpeakButton";
+import { SOS_WHATSAPP_TEXT, waLink } from "@/lib/whatsapp";
 
 export function SosClient() {
   const [contacts, setContacts] = useState<{ name: string; phone: string }[]>([]);
@@ -56,9 +57,13 @@ export function SosClient() {
           <h2 className="text-sm font-bold text-gold-text">Minha Rede de Cuidado</h2>
           <div className="mt-2 space-y-2">
             {contacts.map((c) => (
-              <a key={c.phone} href={`tel:${c.phone}`} className="card flex min-h-14 items-center justify-between p-4">
-                <span className="font-bold">{c.name}</span><span className="text-muted">Ligar</span>
-              </a>
+              <div key={c.phone} className="card space-y-2 p-4">
+                <p className="font-bold">{c.name}</p>
+                <div className="grid grid-cols-2 gap-2">
+                  <a href={`tel:${c.phone}`} className="btn-ghost flex items-center justify-center text-sm">Ligar</a>
+                  <a href={waLink(c.phone, SOS_WHATSAPP_TEXT(c.name))} target="_blank" rel="noopener" className="flex min-h-12 items-center justify-center rounded-full bg-[#1f7a4d] px-3 text-sm font-bold text-white">WhatsApp</a>
+                </div>
+              </div>
             ))}
           </div>
         </section>

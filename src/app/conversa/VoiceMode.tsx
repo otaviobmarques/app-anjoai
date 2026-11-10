@@ -26,6 +26,8 @@ export function VoiceMode({
   const [state, setState] = useState<State>("parado");
   const [heard, setHeard] = useState("");
   const [reply, setReply] = useState("");
+  // o texto da resposta só aparece depois que o Anjo termina de falar (ou é interrompido)
+  const [replyDone, setReplyDone] = useState(false);
   const [crisis, setCrisis] = useState(crisisActive);
   const [err, setErr] = useState("");
   const rec = useRef<ReturnType<typeof getRecognizer>>(null);
@@ -65,7 +67,8 @@ export function VoiceMode({
   async function think(t: string) {
     setState("pensando");
     setReply("");
-    const sp = new SentenceSpeaker(() => { if (alive.current) listen(); });
+    setReplyDone(false);
+    const sp = new SentenceSpeaker(() => { setReplyDone(true); if (alive.current) listen(); });
     speaker.current = sp;
     await sendText(t, true, {
       onDelta: (d) => {
@@ -75,7 +78,7 @@ export function VoiceMode({
       },
       onRisk: () => setCrisis(true),
       onDone: (ok) => {
-        if (!ok) { sp.stop(); setErr("Não consegui responder agora. Toque no anjo para tentar de novo."); setState("parado"); return; }
+        if (!ok) { sp.stop(); setReplyDone(true); setErr("Não consegui responder agora. Toque no anjo para tentar de novo."); setState("parado"); return; }
         sp.end();
       },
     });
@@ -86,6 +89,7 @@ export function VoiceMode({
     unlockAudio();
     if (state === "falando" || state === "pensando") {
       speaker.current?.stop();
+      setReplyDone(true);
       return listen();
     }
     if (state === "ouvindo") { rec.current?.stop(); return; }
@@ -142,7 +146,7 @@ export function VoiceMode({
         <div className="mt-2 flex-1 space-y-3 overflow-y-auto">
           {heard && <p className="text-center text-muted">“{heard}”</p>}
           {crisis && <CrisisCard />}
-          {reply && <p className="card max-h-56 overflow-y-auto whitespace-pre-wrap p-4 leading-relaxed">{reply}</p>}
+          {reply && replyDone && <p className="card max-h-56 overflow-y-auto whitespace-pre-wrap p-4 leading-relaxed">{reply}</p>}
           {err && <p className="rounded-xl bg-surface-2 p-3 text-sm" role="alert">{err}</p>}
         </div>
 

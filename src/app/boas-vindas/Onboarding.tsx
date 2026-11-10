@@ -5,6 +5,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { AngelArt, THEMES } from "@/components/AngelArt";
 import { TERMS_VERSION } from "@/lib/terms";
+import { EmergencyContactForm } from "@/components/EmergencyContactForm";
 
 const TRADITIONS = [
   { id: "evangelica", label: "Evangélica" },
@@ -40,13 +41,15 @@ export function Onboarding({ initialName, next = "" }: { initialName: string; ne
     ]);
     setBusy(false);
     if (error) return setErr("Não consegui salvar. Tente de novo.");
+    const { count } = await supabase.from("trusted_contacts").select("id", { count: "exact", head: true }).neq("status", "recusado");
+    if (!count) return setStep(3);
     router.replace(next || "/inicio");
     router.refresh();
   }
 
   return (
     <div className="mx-auto flex min-h-dvh max-w-md flex-col px-4 py-10">
-      <p className="text-sm text-muted">Passo {step + 1} de 3</p>
+      <p className="text-sm text-muted">Passo {step + 1} de 4</p>
 
       {step === 0 && (
         <section className="mt-4 flex-1 space-y-5">
@@ -104,7 +107,15 @@ export function Onboarding({ initialName, next = "" }: { initialName: string; ne
           </div>
           <div className="py-6"><AngelArt theme={theme} size={180} /></div>
           {err && <p className="text-sm text-danger">{err}</p>}
-          <button className="btn-gold w-full" disabled={busy} onClick={finish}>{busy ? "Salvando…" : "Começar"}</button>
+          <button className="btn-gold w-full" disabled={busy} onClick={finish}>{busy ? "Salvando…" : "Continuar"}</button>
+        </section>
+      )}
+
+      {step === 3 && (
+        <section className="mt-4 flex-1 space-y-4">
+          <h1 className="text-2xl font-extrabold">Contato de emergência</h1>
+          <p className="text-sm leading-relaxed text-muted">Escolha uma pessoa para ser avisada se você apertar o SOS ou passar por um momento de risco. Pode ser da família, um amigo, sua psicóloga ou seu pastor. Ela nunca vê as suas conversas.</p>
+          <EmergencyContactForm submitLabel="Começar" onSaved={() => { router.replace(next || "/inicio"); router.refresh(); }} />
         </section>
       )}
     </div>

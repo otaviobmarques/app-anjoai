@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function createClient() {
   const cookieStore = await cookies();
@@ -37,6 +38,7 @@ export type Profile = {
   terms_version: string | null;
   adult_confirmed: boolean;
   phone: string | null;
+  must_change_password: boolean;
 };
 
 export async function getSession() {
@@ -47,4 +49,18 @@ export async function getSession() {
   if (!user) return { supabase, user: null, profile: null };
   const { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).single<Profile>();
   return { supabase, user, profile };
+}
+
+/**
+ * Para as telas principais do app: exige login, termos aceitos, senha definitiva
+ * e pelo menos um contato de emergência. O SOS fica fora disso e sempre abre.
+ */
+export async function requireReady(path: string) {
+  const s = await getSession();
+  if (!s.user) redirect(`/entrar?next=${encodeURIComponent(path)}`);
+  if (!s.profile?.terms_version || !s.profile.adult_confirmed) redirect(`/boas-vindas?next=${encodeURIComponent(path)}`);
+  if (s.profile.must_change_password) redirect(`/trocar-senha?next=${encodeURIComponent(path)}`);
+  const { count } = await s.supabase.from("trusted_contacts").select("id", { count: "exact", head: true }).neq("status", "recusado");
+  if (!count) redirect(`/contato-emergencia?next=${encodeURIComponent(path)}`);
+  return s as typeof s & { user: NonNullable<typeof s.user>; profile: Profile };
 }

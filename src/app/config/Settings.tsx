@@ -106,6 +106,7 @@ export function Settings({ profile, email, memory }: { profile: Profile; email: 
       <section className="card space-y-3 p-4">
         <h2 className="font-bold">Privacidade</h2>
         <p className="text-sm text-muted">Conta: {email}</p>
+        <a href="/trocar-senha?next=/config" className="btn-ghost flex justify-center text-sm">Trocar senha</a>
         <a href="/api/conta" className="btn-ghost flex justify-center text-sm">Baixar meus dados</a>
         <button className="btn-ghost w-full text-sm" onClick={logout}>Sair</button>
         <button className="w-full py-2 text-sm text-danger underline" onClick={deleteAccount}>Excluir minha conta e todos os dados</button>

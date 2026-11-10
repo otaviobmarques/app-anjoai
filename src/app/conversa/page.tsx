@@ -1,12 +1,9 @@
-import { redirect } from "next/navigation";
-import { getSession } from "@/lib/supabase/server";
+import { requireReady } from "@/lib/supabase/server";
 import { AppShell } from "@/components/AppShell";
 import { Chat } from "./Chat";
 
 export default async function Conversa({ searchParams }: { searchParams: Promise<{ nova?: string; voz?: string }> }) {
-  const { supabase, user, profile } = await getSession();
-  if (!user) redirect("/entrar");
-  if (!profile?.terms_version) redirect("/boas-vindas");
+  const { supabase, profile } = await requireReady("/conversa");
   const { nova, voz } = await searchParams;
 
   let conversationId: string | null = null;
